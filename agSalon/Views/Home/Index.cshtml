@@ -1,9 +1,12 @@
-﻿@model IEnumerable<Service>
+﻿@*@model IEnumerable<Service>*@
+@model string
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    @Model.First().Name
+    @*@Model.First().Name*@
+    @*@ViewBag.date*@
+    @Model
 </div>

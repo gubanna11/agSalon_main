@@ -10,8 +10,10 @@ namespace agSalon.Data
     public class AppDbContext : DbContext
     {
         public DbSet<Service> Services { get; set; }
-        public DbSet<GroupOfServices> Groups { get; set; }
+        public DbSet<GroupsOfServices> Groups { get; set; }
         public DbSet<Service_Group> Services_Groups { get; set; }
+        
+        public DbSet<Client>Clients { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options) { }
 

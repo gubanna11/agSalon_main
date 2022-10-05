@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace agSalon.Models
 {
-    public class GroupOfServices
+    [Table("groups_of_services")]
+    public class GroupsOfServices
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
+
         [Required]
+        [StringLength(45)]
         [Column("name")]
         public string Name { get; set; }
 
