@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Service>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @Model.First().Name
+</div>
