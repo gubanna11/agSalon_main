@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<GroupsOfServices>
 
-@{ 
+@{
     ViewData["Title"] = "Groups of services";
 }
 
@@ -9,11 +9,18 @@
     {
         <a asp-controller="Services" asp-action="Index" asp-route-id="@item.Id">@item.Name</a>
 
-        //foreach (var service in item.Services_Groups.Where(sg => sg.GroupId == item.Id).Select(s => s.Service).ToList())
-        foreach (var service in item.Services_Groups)
-        {
-            <p>@service.Name</p>
-        }
+        @*foreach (var service in item.Services_Groups)
+            {
+                <p>@service.Service.Name</p>
+            }*@
 
+
+            List<Service_Group> services = ViewBag.Services;
+            services = services.Where(s => s.GroupId == item.Id).ToList();
+
+            foreach (Service_Group service in services)
+            {
+                <p>@service.Service.Name</p>
+            }
     }
 </div>
