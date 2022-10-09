@@ -9,8 +9,8 @@ using agSalon.Data;
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221005184310_initial")]
-    partial class initial
+    [Migration("20221009165743_workers_groups")]
+    partial class workers_groups
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,6 +113,67 @@ namespace agSalon.Migrations
                     b.ToTable("Services_Groups");
                 });
 
+            modelBuilder.Entity("agSalon.Models.Worker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("varchar(45)")
+                        .HasColumnName("address");
+
+                    b.Property<DateTime>("DateBirth")
+                        .HasColumnType("date")
+                        .HasColumnName("date_birth");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int")
+                        .HasColumnName("gender");
+
+                    b.Property<string>("Initials")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)")
+                        .HasColumnName("initial");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("varchar(13)")
+                        .HasColumnName("phone");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("varchar(45)")
+                        .HasColumnName("surname");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workers");
+                });
+
+            modelBuilder.Entity("agSalon.Models.Worker_Group", b =>
+                {
+                    b.Property<int>("WorkerId")
+                        .HasColumnType("int")
+                        .HasColumnName("worker_id");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int")
+                        .HasColumnName("group_id");
+
+                    b.HasKey("WorkerId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Worker_Group");
+                });
+
             modelBuilder.Entity("agSalon.Models.Service_Group", b =>
                 {
                     b.HasOne("agSalon.Models.GroupsOfServices", "Group")
@@ -132,14 +193,40 @@ namespace agSalon.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("agSalon.Models.Worker_Group", b =>
+                {
+                    b.HasOne("agSalon.Models.GroupsOfServices", "Group")
+                        .WithMany("Workers_Groups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("agSalon.Models.Worker", "Worker")
+                        .WithMany("Workers_Groups")
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Worker");
+                });
+
             modelBuilder.Entity("agSalon.Models.GroupsOfServices", b =>
                 {
                     b.Navigation("Services_Groups");
+
+                    b.Navigation("Workers_Groups");
                 });
 
             modelBuilder.Entity("agSalon.Models.Service", b =>
                 {
                     b.Navigation("Service_Group");
+                });
+
+            modelBuilder.Entity("agSalon.Models.Worker", b =>
+                {
+                    b.Navigation("Workers_Groups");
                 });
 #pragma warning restore 612, 618
         }

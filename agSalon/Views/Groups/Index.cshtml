@@ -1,0 +1,19 @@
+﻿@model IEnumerable<GroupsOfServices>
+
+@{ 
+    ViewData["Title"] = "Groups of services";
+}
+
+<div>
+    @foreach (var item in Model)
+    {
+        <a asp-controller="Services" asp-action="Index" asp-route-id="@item.Id">@item.Name</a>
+
+        //foreach (var service in item.Services_Groups.Where(sg => sg.GroupId == item.Id).Select(s => s.Service).ToList())
+        foreach (var service in item.Services_Groups)
+        {
+            <p>@service.Name</p>
+        }
+
+    }
+</div>

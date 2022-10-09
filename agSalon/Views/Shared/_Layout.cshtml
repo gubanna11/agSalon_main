@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - agSalon</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -17,12 +18,28 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 justify-content-between">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
+                        </li>
+
+                        <li class="navbar-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> Management
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Groups" asp-action="Create"><i class="bi bi-collection"></i> New Group</a>
+                                <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-receipt"></i> New Service</a>
+                                <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-person-square"></i> New Worker</a>
+                                <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-person-square"></i> Clients</a>
+                                <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-person-square"></i> Workers</a>
+                            </div>
+
                         </li>
                     </ul>
                 </div>

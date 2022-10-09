@@ -1,4 +1,5 @@
 ﻿using agSalon.Data;
+using agSalon.Data.Enums;
 using agSalon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,6 +28,7 @@ namespace agSalon.Controllers
 
             //return View((object)d.ToShortDateString());
             //return View("Index", d.ToShortDateString());
+            
             return View();
         }
 

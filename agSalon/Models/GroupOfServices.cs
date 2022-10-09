@@ -21,5 +21,6 @@ namespace agSalon.Models
         public string Name { get; set; }
 
         public List<Service_Group> Services_Groups { get; set; }
+        public List<Worker_Group> Workers_Groups { get; set; }
     }
 }

@@ -1,0 +1,19 @@
+﻿@model GroupsOfServices
+
+@{
+    ViewData["Title"] = "Create a Group";
+}
+
+<form asp-action="Create">
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+
+    <div>
+        <input type="submit" value="Create" />
+        <a asp-action="Index"> Show all </a>
+    </div>
+
+</form>

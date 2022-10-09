@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agSalon.Data;
 
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221008142855_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,23 +157,6 @@ namespace agSalon.Migrations
                     b.ToTable("Workers");
                 });
 
-            modelBuilder.Entity("agSalon.Models.Worker_Group", b =>
-                {
-                    b.Property<int>("WorkerId")
-                        .HasColumnType("int")
-                        .HasColumnName("worker_id");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int")
-                        .HasColumnName("group_id");
-
-                    b.HasKey("WorkerId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Workers_Groups");
-                });
-
             modelBuilder.Entity("agSalon.Models.Service_Group", b =>
                 {
                     b.HasOne("agSalon.Models.GroupsOfServices", "Group")
@@ -191,40 +176,14 @@ namespace agSalon.Migrations
                     b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("agSalon.Models.Worker_Group", b =>
-                {
-                    b.HasOne("agSalon.Models.GroupsOfServices", "Group")
-                        .WithMany("Workers_Groups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("agSalon.Models.Worker", "Worker")
-                        .WithMany("Workers_Groups")
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Worker");
-                });
-
             modelBuilder.Entity("agSalon.Models.GroupsOfServices", b =>
                 {
                     b.Navigation("Services_Groups");
-
-                    b.Navigation("Workers_Groups");
                 });
 
             modelBuilder.Entity("agSalon.Models.Service", b =>
                 {
                     b.Navigation("Service_Group");
-                });
-
-            modelBuilder.Entity("agSalon.Models.Worker", b =>
-                {
-                    b.Navigation("Workers_Groups");
                 });
 #pragma warning restore 612, 618
         }
