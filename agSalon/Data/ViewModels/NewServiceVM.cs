@@ -1,18 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using agSalon.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace agSalon.Models
+namespace agSalon.Data.ViewModels
 {
-    [Index(propertyNames: nameof(Name), IsUnique = true)]
-    public class Service
+    public class NewServiceVM
     {
-        [Key]
+        
         [Column("id")]
         public int Id { get; set; }
 
@@ -25,6 +23,6 @@ namespace agSalon.Models
         [Column("price")]
         public int Price { get; set; }
 
-        public Service_Group Service_Group { get; set; }
+        public int GroupId { get; set; }
     }
 }

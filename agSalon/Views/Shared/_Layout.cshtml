@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@*@{
+
+    class MainDb
+    {
+        public static AppDbContext _context;
+        public MainDb(AppDbContext context)
+        {
+            _context = context;
+        }
+
+    }
+}*@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,6 +35,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
                         </li>
@@ -34,7 +48,7 @@
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-controller="Groups" asp-action="Create"><i class="bi bi-collection"></i> New Group</a>
-                                <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-receipt"></i> New Service</a>
+                                <a class="dropdown-item" asp-controller="Services" asp-action="Create"><i class="bi bi-receipt"></i> New Service</a>
                                 <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-person-square"></i> New Worker</a>
                                 <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-person-square"></i> Clients</a>
                                 <a class="dropdown-item" asp-controller="" asp-action="Index"><i class="bi bi-person-square"></i> Workers</a>

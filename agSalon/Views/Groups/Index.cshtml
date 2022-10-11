@@ -15,12 +15,12 @@
             }*@
 
 
-            List<Service_Group> services = ViewBag.Services;
+            @*List<Service_Group> services = ViewBag.Services;
             services = services.Where(s => s.GroupId == item.Id).ToList();
 
             foreach (Service_Group service in services)
             {
                 <p>@service.Service.Name</p>
-            }
+            }*@
     }
 </div>

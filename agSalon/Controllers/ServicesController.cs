@@ -1,7 +1,9 @@
 ﻿using agSalon.Data;
 using agSalon.Data.Enums;
+using agSalon.Data.ViewModels;
 using agSalon.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,23 +23,46 @@ namespace agSalon.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index(int id)
         {
             var services = _context.Services.Where(s => s.Service_Group.GroupId == id);
+            ViewBag.GroupName = _context.Groups.Where(n => n.Id == id).Select(n => n.Name).FirstOrDefault();
             return View(services);
         }
 
-        //public async Task<IActionResult> Create()
-        //{
-        //    return View();
-        //}
+        public async Task<IActionResult> Create()
+        {
+            List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+            ViewBag.Groups = new SelectList(groups, "Id", "Name");
+            
+            return View();
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create(GroupsOfServices newGroup)
-        //{
-        //    await _context.Groups.AddAsync(newGroup);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Create(NewServiceVM newService)
+        {
+            if (!ModelState.IsValid) return View(newService);
+
+            Service service = new Service
+            {
+                Name = newService.Name,
+                Price = newService.Price
+            };
+
+            await _context.Services.AddAsync(service);
+            await _context.SaveChangesAsync();
+
+            Service_Group serviceGroup = new Service_Group
+            {
+                ServiceId = service.Id,
+                GroupId = newService.GroupId
+            };
+
+            await _context.Services_Groups.AddAsync(serviceGroup);
+            await _context.SaveChangesAsync();
+                        
+            return Redirect("Index/" + serviceGroup.GroupId);
+        }
+
     }
 }
