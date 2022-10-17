@@ -41,7 +41,13 @@ namespace agSalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewServiceVM newService)
         {
-            if (!ModelState.IsValid) return View(newService);
+            if (!ModelState.IsValid)
+            {
+                List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+                ViewBag.Groups = new SelectList(groups, "Id", "Name");
+
+                return View(newService);
+            }
 
             Service service = new Service
             {

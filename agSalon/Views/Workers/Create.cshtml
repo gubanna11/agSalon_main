@@ -1,0 +1,49 @@
+﻿@model NewWorkerVM
+
+@using agSalon.Data.ViewModels
+@using agSalon.Data.Enums
+
+@{
+    ViewData["Title"] = "New Worker";
+}
+
+<form asp-action="Create">
+    <div>
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" />
+    </div>
+
+    <div>
+        <label asp-for="Initials"></label>
+        <input asp-for="Initials" />
+    </div>
+
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" />
+    </div>
+
+    <div>
+        <label asp-for="DateBirth"></label>
+        <input asp-for="DateBirth" type="date" />
+    </div>
+
+    <div>
+        <label asp-for="Gender"></label>
+        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()"> </select>
+    </div>
+
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" />
+    </div>
+
+    <div>
+        <label asp-for="GroupsIds"></label>
+        <select asp-for="GroupsIds" asp-items="ViewBag.Groups" multiple>  </select>
+    </div>
+
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+</form>
