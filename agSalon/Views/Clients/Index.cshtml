@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Client>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<div>
+    @foreach (var item in Model)
+    {
+        <p>@item.Surname</p>
+        <p>@item.DateBirth.ToShortDateString()</p>
+        <br /><br />
+    }
+</div>

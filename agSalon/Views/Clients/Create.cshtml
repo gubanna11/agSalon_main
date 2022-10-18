@@ -1,0 +1,31 @@
+﻿@model Client
+
+@{
+    ViewData["Title"] = "New Client";
+}
+
+<form asp-action="Create">
+    <div>
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" />
+    </div>
+
+    <div>
+        <label asp-for="Initials"></label>
+        <input asp-for="Initials" />
+    </div>
+
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" />
+    </div>
+
+    <div>
+        <label asp-for="DateBirth"></label>
+        <input asp-for="DateBirth" type="date" />
+    </div>
+
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+</form>
