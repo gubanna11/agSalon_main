@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agSalon.Data;
 
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221022102456_attendances")]
+    partial class attendances
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,29 +29,29 @@ namespace agSalon.Migrations
                         .HasColumnType("date")
                         .HasColumnName("date");
 
-                    b.Property<int?>("GroupId")
+                    b.Property<int>("GroupId")
                         .HasColumnType("int")
                         .HasColumnName("group_id");
-
-                    b.Property<int>("IsRendered")
-                        .HasColumnType("int")
-                        .HasColumnName("rendered");
 
                     b.Property<double>("Price")
                         .HasColumnType("double")
                         .HasColumnName("price");
 
-                    b.Property<int?>("ServiceId")
+                    b.Property<int>("ServiceId")
                         .HasColumnType("int")
                         .HasColumnName("service_id");
 
-                    b.Property<DateTime?>("Time")
+                    b.Property<DateTime>("Time")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("time");
 
                     b.Property<int>("WorkerId")
                         .HasColumnType("int")
                         .HasColumnName("worker_id");
+
+                    b.Property<int>("isRendered")
+                        .HasColumnType("int")
+                        .HasColumnName("rendered");
 
                     b.HasIndex("ClientId");
 
@@ -127,8 +129,8 @@ namespace agSalon.Migrations
                         .HasColumnType("varchar(45)")
                         .HasColumnName("name");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double")
+                    b.Property<int>("Price")
+                        .HasColumnType("int")
                         .HasColumnName("price");
 
                     b.HasKey("Id");
@@ -230,11 +232,15 @@ namespace agSalon.Migrations
 
                     b.HasOne("agSalon.Models.GroupsOfServices", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("agSalon.Models.Service", "Service")
                         .WithMany()
-                        .HasForeignKey("ServiceId");
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("agSalon.Models.Worker", "Worker")
                         .WithMany()

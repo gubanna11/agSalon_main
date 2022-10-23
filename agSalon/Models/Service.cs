@@ -23,7 +23,7 @@ namespace agSalon.Models
 
         [Required]
         [Column("price")]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         public Service_Group Service_Group { get; set; }
     }

@@ -18,6 +18,8 @@ namespace agSalon.Data
 
         public DbSet<Worker_Group> Workers_Groups { get; set; }
 
+        public DbSet<Attendance> Attendances { get; set; }
+
         public AppDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +37,8 @@ namespace agSalon.Data
             modelBuilder.Entity<Worker_Group>().HasOne(w => w.Worker).WithMany(wg => wg.Workers_Groups);
             modelBuilder.Entity<Worker_Group>().HasOne(w => w.Group).WithMany(wg => wg.Workers_Groups);
 
+
+            modelBuilder.Entity<Attendance>().HasNoKey();
 
             base.OnModelCreating(modelBuilder);
         }

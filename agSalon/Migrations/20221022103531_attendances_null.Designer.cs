@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agSalon.Data;
 
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221022103531_attendances_null")]
+    partial class attendances_null
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,10 +33,6 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("group_id");
 
-                    b.Property<int>("IsRendered")
-                        .HasColumnType("int")
-                        .HasColumnName("rendered");
-
                     b.Property<double>("Price")
                         .HasColumnType("double")
                         .HasColumnName("price");
@@ -50,6 +48,10 @@ namespace agSalon.Migrations
                     b.Property<int>("WorkerId")
                         .HasColumnType("int")
                         .HasColumnName("worker_id");
+
+                    b.Property<int>("isRendered")
+                        .HasColumnType("int")
+                        .HasColumnName("rendered");
 
                     b.HasIndex("ClientId");
 
@@ -127,8 +129,8 @@ namespace agSalon.Migrations
                         .HasColumnType("varchar(45)")
                         .HasColumnName("name");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double")
+                    b.Property<int>("Price")
+                        .HasColumnType("int")
                         .HasColumnName("price");
 
                     b.HasKey("Id");

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Worker>
+
+<select id="worker">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id"> @item.Surname</option>
+    }
+</select>
+
+
