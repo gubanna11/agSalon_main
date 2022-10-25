@@ -38,7 +38,9 @@ namespace agSalon.Data
             modelBuilder.Entity<Worker_Group>().HasOne(w => w.Group).WithMany(wg => wg.Workers_Groups);
 
 
-            modelBuilder.Entity<Attendance>().HasNoKey();
+            modelBuilder.Entity<Attendance>().HasIndex(att => new { att.ClientId, att.Date, att.ServiceId }).IsUnique();
+            modelBuilder.Entity<Attendance>().HasIndex(att => new { att.WorkerId, att.Date, att.ServiceId }).IsUnique();
+            modelBuilder.Entity<Attendance>().Property(a => a.Time).HasColumnType("time");
 
             base.OnModelCreating(modelBuilder);
         }

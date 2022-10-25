@@ -9,8 +9,8 @@ using agSalon.Data;
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221022105816_service_price-double")]
-    partial class service_pricedouble
+    [Migration("20221024184850_attendances_indexes-updated-2")]
+    partial class attendances_indexesupdated2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,11 @@ namespace agSalon.Migrations
 
             modelBuilder.Entity("agSalon.Models.Attendance", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
                     b.Property<int>("ClientId")
                         .HasColumnType("int")
                         .HasColumnName("client_id");
@@ -53,13 +58,17 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("worker_id");
 
-                    b.HasIndex("ClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("WorkerId");
+                    b.HasIndex("ClientId", "Date", "ServiceId")
+                        .IsUnique();
+
+                    b.HasIndex("WorkerId", "Date", "ServiceId")
+                        .IsUnique();
 
                     b.ToTable("Attendances");
                 });

@@ -27,6 +27,8 @@ namespace agSalon.Models
         public string Phone { get; set; }
 
         [Column("date_birth", TypeName = "date"), Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
+        
         public DateTime DateBirth { get; set; }
 
         [Column("address"), Required]

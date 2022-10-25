@@ -1,4 +1,5 @@
 ﻿using agSalon.Data.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,10 @@ namespace agSalon.Models
 {
     public class Attendance
     {
+        [Key]
+        [Column("id")]
+        public int Id { get; set; }
+
         [Column("client_id"), Required]
         public int ClientId { get; set; }
         public Client Client { get; set; }
@@ -29,12 +34,12 @@ namespace agSalon.Models
 
 
         [Column("date", TypeName = "date"), Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime Date { get; set; }
 
         [Column("time")]
-        [DataType(DataType.Time)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{HH:mm}")]
-        public DateTime? Time { get; set; }
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}", NullDisplayText = "")]
+        public TimeSpan? Time { get; set; }
 
 
         [Column("price")]

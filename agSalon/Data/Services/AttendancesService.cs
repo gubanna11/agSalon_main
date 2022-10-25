@@ -17,9 +17,10 @@ namespace agSalon.Data.Services
             _context = context;
         }
 
-        public Task<List<Attendance>> GetAllAttendances()
+
+        public async Task<List<Attendance>> GetAllAttendances()
         {
-            var attendances = _context.Attendances.Include(a => a.Client).Include(a => a.Group)
+            var attendances = await _context.Attendances.Include(a => a.Client).Include(a => a.Group)
                 .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
             return attendances;
         }

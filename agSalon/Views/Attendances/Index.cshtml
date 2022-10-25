@@ -1,37 +1,55 @@
 ﻿@model IEnumerable<Attendance>
+@*@model IEnumerable<Nullable<TimeSpan>>*@
 
 @{
     ViewData["Title"] = "Attendances";
 }
 
+@*@foreach (var item in Model)
+    {
+        <span>
+            @item.Client.Surname &emsp;
+
+            @item.Group.Name &emsp;
+            @item.Service.Name &emsp;
+
+            @item.Worker.Surname &emsp;
+
+            @Html.DisplayFor(a => item.Date) &emsp;
+            @item.Time &emsp;
+
+            @item.Price &emsp;
+            @item.IsRendered
+        </span>
+    }*@
+
 <table>
     <thead>
         <tr>
-            <th>Client Id</th>
+
             <th>Client Surname</th>
-            <th>Group Id</th>
             <th>Group Name</th>
-            <th>Worker Id</th>
+            <th>Service Name</th>
             <th>Worker Surname</th>
             <th>Date</th>
+            <th>Time</th>
             <th>Price</th>
+            <th>Rendered</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.ClientId</td>
                 <td>@item.Client.Surname</td>
-                <td>@item.GroupId</td>
                 <td>@item.Group.Name</td>
-                <td>@item.WorkerId</td>
+                <td>@item.Service.Name</td>
                 <td>@item.Worker.Surname</td>
-                <td>@item.Date</td>
+                <td> @Html.DisplayFor(a => item.Date)</td>
+                <td>@item.Time</td>
                 <td>@item.Price</td>
+                <td>@item.IsRendered</td>
             </tr>
         }
     </tbody>
 </table>
-
-

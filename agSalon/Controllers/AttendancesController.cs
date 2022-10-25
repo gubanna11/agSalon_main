@@ -23,10 +23,14 @@ namespace agSalon.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var attendances = _service.GetAllAttendances();
+            var attendances = await _service.GetAllAttendances();
             return View(attendances);
+            //TimeOnly
+            //var times = await _context.Attendances.Select(a => a.Time).ToListAsync();
+            //.GetValueOrDefault()
+            //return View(times);
         }
 
         public async Task<IActionResult> NewAttendance(int id = 1)
@@ -42,13 +46,13 @@ namespace agSalon.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> NewAttendance(NewAttendanceVM newAttendance)
-        //{
-        //    await _service.AddNewAttendance(newAttendance);
+        [HttpPost]
+        public async Task<IActionResult> NewAttendance(NewAttendanceVM newAttendance)
+        {
+            await _service.AddNewAttendance(newAttendance);
 
-        //    return View("Index");
-        //}
+            return RedirectToAction("Index");
+        }
 
         public IActionResult ServicesDropdown(int id)
         {

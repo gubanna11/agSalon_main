@@ -21,7 +21,10 @@
     <div>
         <label asp-for="ServiceId"></label>
         @*<select asp-for="ServiceId" asp-items="ViewBag.Services" id="service"> </select>*@
-        @Html.DropDownList("ServiceId", ViewBag.Services as SelectList, new { id = "service" })
+        @*<select asp-for="ServiceId" id="service">*@
+            @Html.DropDownList("ServiceId", ViewBag.Services as SelectList, new { id = "service" })
+        @*</select>*@
+        
         
     </div>
 

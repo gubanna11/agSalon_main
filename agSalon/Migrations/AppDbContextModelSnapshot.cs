@@ -19,6 +19,11 @@ namespace agSalon.Migrations
 
             modelBuilder.Entity("agSalon.Models.Attendance", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
                     b.Property<int>("ClientId")
                         .HasColumnType("int")
                         .HasColumnName("client_id");
@@ -43,21 +48,25 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("service_id");
 
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("datetime(6)")
+                    b.Property<TimeSpan?>("Time")
+                        .HasColumnType("time")
                         .HasColumnName("time");
 
                     b.Property<int>("WorkerId")
                         .HasColumnType("int")
                         .HasColumnName("worker_id");
 
-                    b.HasIndex("ClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("WorkerId");
+                    b.HasIndex("ClientId", "Date", "ServiceId")
+                        .IsUnique();
+
+                    b.HasIndex("WorkerId", "Date", "ServiceId")
+                        .IsUnique();
 
                     b.ToTable("Attendances");
                 });

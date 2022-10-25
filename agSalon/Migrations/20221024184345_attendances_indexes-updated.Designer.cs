@@ -9,8 +9,8 @@ using agSalon.Data;
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221022103531_attendances_null")]
-    partial class attendances_null
+    [Migration("20221024184345_attendances_indexes-updated")]
+    partial class attendances_indexesupdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,11 @@ namespace agSalon.Migrations
 
             modelBuilder.Entity("agSalon.Models.Attendance", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
                     b.Property<int>("ClientId")
                         .HasColumnType("int")
                         .HasColumnName("client_id");
@@ -32,6 +37,10 @@ namespace agSalon.Migrations
                     b.Property<int?>("GroupId")
                         .HasColumnType("int")
                         .HasColumnName("group_id");
+
+                    b.Property<int>("IsRendered")
+                        .HasColumnType("int")
+                        .HasColumnName("rendered");
 
                     b.Property<double>("Price")
                         .HasColumnType("double")
@@ -49,17 +58,17 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("worker_id");
 
-                    b.Property<int>("isRendered")
-                        .HasColumnType("int")
-                        .HasColumnName("rendered");
-
-                    b.HasIndex("ClientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("WorkerId");
+                    b.HasIndex("ClientId", "Date", "Time")
+                        .IsUnique();
+
+                    b.HasIndex("WorkerId", "Date", "Time")
+                        .IsUnique();
 
                     b.ToTable("Attendances");
                 });
@@ -129,8 +138,8 @@ namespace agSalon.Migrations
                         .HasColumnType("varchar(45)")
                         .HasColumnName("name");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int")
+                    b.Property<double>("Price")
+                        .HasColumnType("double")
                         .HasColumnName("price");
 
                     b.HasKey("Id");
