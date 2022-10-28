@@ -18,12 +18,7 @@ namespace agSalon.Data.Services
         }
 
 
-        public async Task<List<Attendance>> GetAllAttendances()
-        {
-            var attendances = await _context.Attendances.Include(a => a.Client).Include(a => a.Group)
-                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
-            return attendances;
-        }
+      
 
         public async Task AddNewAttendance(NewAttendanceVM newAttendance)
         {
@@ -34,7 +29,8 @@ namespace agSalon.Data.Services
                 WorkerId = newAttendance.WorkerId,
                 Date = newAttendance.Date,
                 Price = _context.Services.Where(s => s.Id == newAttendance.ServiceId).Select(s => s.Price).FirstOrDefault(),
-                IsRendered = IsRendered.No
+                IsRendered = YesNoEnum.No,
+                IsPaid = YesNoEnum.No
             };
 
             //!!!!!!!!!!!!!
@@ -58,6 +54,46 @@ namespace agSalon.Data.Services
             return dropdowns;
         }
 
-        
+        //GET ATTENDANCES
+
+        public async Task<List<Attendance>> GetNotRenderedAttendances()
+        {
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No).Include(a => a.Client).Include(a => a.Group)
+                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            return attendances;
+        }
+
+        public async Task<List<Attendance>> GetNotRenderedIsPaidAttendances()
+        {
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.Yes).Include(a => a.Client).Include(a => a.Group)
+                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            return attendances;
+        }
+
+
+        public async Task<List<Attendance>> GetNotRenderedNotPaidAttendances()
+        {
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.No).Include(a => a.Client).Include(a => a.Group)
+                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            return attendances;
+        }
+
+     
+
+        public async Task<List<Attendance>> GetIsRenderedAttendances()
+        {
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.Yes).Include(a => a.Client).Include(a => a.Group)
+                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            return attendances;
+        }
+
+
+        public double GetTotal()
+        {
+            var total =  _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.No)
+                .Include(a => a.Service).Sum(p => p.Service.Price);
+            return total;
+        }
+
     }
 }

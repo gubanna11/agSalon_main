@@ -46,7 +46,10 @@ namespace agSalon.Models
         public double Price { get; set; }
 
         [Column("rendered")]
-        public IsRendered IsRendered { get; set; }
+        public YesNoEnum IsRendered { get; set; }
+
+        [Column("paid")]
+        public YesNoEnum IsPaid { get; set; }
 
     }
 }

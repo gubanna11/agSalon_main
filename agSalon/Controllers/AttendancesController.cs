@@ -1,4 +1,5 @@
 ﻿using agSalon.Data;
+using agSalon.Data.Enums;
 using agSalon.Data.Services;
 using agSalon.Data.ViewModels;
 using agSalon.Models;
@@ -25,12 +26,14 @@ namespace agSalon.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var attendances = await _service.GetAllAttendances();
+            var attendances = await _service.GetNotRenderedAttendances();
+
+            ViewBag.IsPaid = await _service.GetNotRenderedIsPaidAttendances();
+            ViewBag.NotPaid = await _service.GetNotRenderedNotPaidAttendances();
+
+            ViewBag.Total = _service.GetTotal();
+
             return View(attendances);
-            //TimeOnly
-            //var times = await _context.Attendances.Select(a => a.Time).ToListAsync();
-            //.GetValueOrDefault()
-            //return View(times);
         }
 
         public async Task<IActionResult> NewAttendance(int id = 1)
@@ -57,14 +60,48 @@ namespace agSalon.Controllers
         public IActionResult ServicesDropdown(int id)
         {
             var services = _context.Services.Include(s => s.Service_Group).Where(s => s.Service_Group.GroupId == id).OrderBy(s => s.Name).ToList();
-            
+
             return PartialView(services);
         }
 
         public ActionResult WorkersDropdown(int id)
         {
             return PartialView(_context.Workers_Groups.Include(wg => wg.Worker).Where(wg => wg.GroupId == id).Select(wg => wg.Worker).ToList());
+        }
 
+
+        public async Task<ActionResult> FilterNotPaid()
+        {
+            var model = await _service.GetNotRenderedNotPaidAttendances();
+            return View("Index", model);
+        }
+
+        public async Task<ActionResult> FilterIsPaid()
+        {
+            var model = await _service.GetNotRenderedIsPaidAttendances();
+            return View("Index", model);
+        }
+
+
+
+        public async Task<IActionResult> History()
+        {
+            var attendances = await _service.GetIsRenderedAttendances();
+
+            return View(attendances);
+        }
+
+
+        public async Task<IActionResult> CompletePayment()
+        {
+            var attendances = await _service.GetNotRenderedNotPaidAttendances();
+
+            foreach (var item in attendances)
+                item.IsPaid = YesNoEnum.Yes;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }

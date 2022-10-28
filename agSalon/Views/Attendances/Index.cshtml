@@ -23,10 +23,18 @@
         </span>
     }*@
 
+
+@*<input type="button" asp-controller="Attendances" asp-action="FilterAll" value="All">*@
+
+@*<a href="Index">All</a>
+    <a href="FilterNotPaid">NotPaid</a>
+    <a href="FilterIsPaid">IsPaid</a>*@
+
+<hr />
+
 <table>
     <thead>
         <tr>
-
             <th>Client Surname</th>
             <th>Group Name</th>
             <th>Service Name</th>
@@ -35,21 +43,103 @@
             <th>Time</th>
             <th>Price</th>
             <th>Rendered</th>
+            <th>Paid</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (ViewBag.NotPaid.Count > 0)
         {
+            @foreach (var item in ViewBag.NotPaid)
+            {
+                <tr>
+                    <td>@item.Client.Surname</td>
+                    <td>@item.Group.Name</td>
+                    <td>@item.Service.Name</td>
+                    <td>@item.Worker.Surname</td>
+                    @*<td> @Html.DisplayFor(a => item.Date)</td>*@
+                    <td></td>
+                    <td>@item.Time</td>
+                    <td>@item.Price</td>
+                    <td>@item.IsRendered</td>
+                    <td>@item.IsPaid</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@ViewBag.Total</td>
+                <td><div id="paypal-btn"></div></td>
+
+            </tr>
+        }
+        @foreach (var item in ViewBag.IsPaid)
+        {
+
             <tr>
                 <td>@item.Client.Surname</td>
                 <td>@item.Group.Name</td>
                 <td>@item.Service.Name</td>
                 <td>@item.Worker.Surname</td>
-                <td> @Html.DisplayFor(a => item.Date)</td>
+                @*<td> @Html.DisplayFor(a => item.Date)</td>*@
+                <td></td>
                 <td>@item.Time</td>
                 <td>@item.Price</td>
                 <td>@item.IsRendered</td>
+                <td>@item.IsPaid</td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts{
+
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+    <script>
+
+        let _total = @Html.Raw(ViewBag.Total);
+
+        paypal.Button.render({
+            //Configure environment
+            env: 'sandbox',
+            client: {
+                sandbox: 'ARU3D2Jlr2QW3KKRlVSXdFiAZ46B8cM7wC5g-jdiUv1ESsr0kh_BGlxnalTMsIobmDFTBBM9ehgsdamW'
+            },
+
+            //Customize button
+            locale: 'en_US',
+            style: {
+                size: 'small',
+                color: 'gold',
+                shape: 'pill'
+            },
+            commit: true,
+
+            //Set up a payment
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: _total,
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+
+            //Execute the payment
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    var url = '@Url.Action("CompletePayment", "Attendances", new { })';
+                    window.location.href = url;
+                });
+            }
+        }, '#paypal-btn');
+    </script>
+}
+

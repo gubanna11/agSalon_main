@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace agSalon.Data.Enums
 {
-    public enum IsRendered
+    public enum YesNoEnum
     {
         No, Yes
     }

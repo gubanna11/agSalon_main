@@ -9,8 +9,15 @@ namespace agSalon.Data.Services
 {
     public interface IAttendancesService
     {
-        Task<List<Attendance>> GetAllAttendances();
+        
         Task AddNewAttendance(NewAttendanceVM newAttendance);
         Task<AttendanceDropdownsVM> GetAttendanceDropdownsValues(int groupId);
+        
+        Task<List<Attendance>> GetIsRenderedAttendances();
+        Task<List<Attendance>> GetNotRenderedAttendances();
+        Task<List<Attendance>> GetNotRenderedIsPaidAttendances();
+        Task<List<Attendance>> GetNotRenderedNotPaidAttendances();
+
+        double GetTotal();
     }
 }

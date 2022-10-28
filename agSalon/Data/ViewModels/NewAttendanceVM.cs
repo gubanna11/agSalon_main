@@ -36,6 +36,10 @@ namespace agSalon.Data.ViewModels
 
         [Column("rendered")]
 
-        public IsRendered IsRendered { get; set; }
+        public YesNoEnum IsRendered { get; set; }
+
+        [Column("paid")]
+
+        public YesNoEnum IsPaid { get; set; }
     }
 }
