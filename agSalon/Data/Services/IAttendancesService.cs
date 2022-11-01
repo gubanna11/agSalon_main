@@ -12,11 +12,12 @@ namespace agSalon.Data.Services
         
         Task AddNewAttendance(NewAttendanceVM newAttendance);
         Task<AttendanceDropdownsVM> GetAttendanceDropdownsValues(int groupId);
-        
-        Task<List<Attendance>> GetIsRenderedAttendances();
-        Task<List<Attendance>> GetNotRenderedAttendances();
-        Task<List<Attendance>> GetNotRenderedIsPaidAttendances();
-        Task<List<Attendance>> GetNotRenderedNotPaidAttendances();
+
+        Task<Attendance> GetAttendanceById(int id);
+        Task<IEnumerable<Attendance>> GetIsRenderedAttendances();
+        Task<IEnumerable<Attendance>> GetNotRenderedAttendances();
+        Task<IEnumerable<Attendance>> GetNotRenderedIsPaidAttendances();
+        Task<IEnumerable<Attendance>> GetNotRenderedNotPaidAttendances();
 
         double GetTotal();
     }

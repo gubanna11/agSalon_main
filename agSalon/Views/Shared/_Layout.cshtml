@@ -47,6 +47,19 @@
                         <li class="navbar-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> Attendances
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Attendances" asp-action="Index"><i class="bi bi-person-square"></i> Not rendered</a>
+                                <a class="dropdown-item" asp-controller="Attendances" asp-action="History"><i class="bi bi-person-square"></i> History</a>
+                            </div>
+
+                        </li>
+
+                        <li class="navbar-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-gear"></i> Management
                             </a>
 

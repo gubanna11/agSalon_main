@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Attendance>
+
+@{
+    ViewData["Title"] = "Attendances";
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>Client Surname</th>
+            <th>Group Name</th>
+            <th>Service Name</th>
+            <th>Worker Surname</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Price</th>
+            <th>Rendered</th>
+            <th>Paid</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Client.Surname</td>
+                <td>@item.Group.Name</td>
+                <td>@item.Service.Name</td>
+                <td>@item.Worker.Surname</td>
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.Time</td>
+                <td>@item.Price</td>
+                <td>@item.IsRendered</td>
+                <td>@item.IsPaid</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

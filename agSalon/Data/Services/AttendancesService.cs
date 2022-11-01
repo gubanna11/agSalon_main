@@ -18,8 +18,6 @@ namespace agSalon.Data.Services
         }
 
 
-      
-
         public async Task AddNewAttendance(NewAttendanceVM newAttendance)
         {
             Attendance attendance = new Attendance()
@@ -56,14 +54,18 @@ namespace agSalon.Data.Services
 
         //GET ATTENDANCES
 
-        public async Task<List<Attendance>> GetNotRenderedAttendances()
+        public async Task<Attendance> GetAttendanceById(int id)
+            => await _context.Attendances.Where(a => a.Id == id).Include(a => a.Client).Include(a => a.Group)
+                .Include(a => a.Service).Include(a => a.Worker).FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<Attendance>> GetNotRenderedAttendances()
         {
             var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No).Include(a => a.Client).Include(a => a.Group)
                 .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
             return attendances;
         }
 
-        public async Task<List<Attendance>> GetNotRenderedIsPaidAttendances()
+        public async Task<IEnumerable<Attendance>> GetNotRenderedIsPaidAttendances()
         {
             var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.Yes).Include(a => a.Client).Include(a => a.Group)
                 .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
@@ -71,7 +73,7 @@ namespace agSalon.Data.Services
         }
 
 
-        public async Task<List<Attendance>> GetNotRenderedNotPaidAttendances()
+        public async Task<IEnumerable<Attendance>> GetNotRenderedNotPaidAttendances()
         {
             var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.No).Include(a => a.Client).Include(a => a.Group)
                 .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
@@ -80,7 +82,7 @@ namespace agSalon.Data.Services
 
      
 
-        public async Task<List<Attendance>> GetIsRenderedAttendances()
+        public async Task<IEnumerable<Attendance>> GetIsRenderedAttendances()
         {
             var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.Yes).Include(a => a.Client).Include(a => a.Group)
                 .Include(a => a.Service).Include(a => a.Worker).ToListAsync();

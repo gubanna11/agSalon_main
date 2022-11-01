@@ -103,5 +103,37 @@ namespace agSalon.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var attendance = await _service.GetAttendanceById(id);
+
+            if (attendance != null)
+            {
+                _context.Attendances.Remove(attendance);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var attendance = await _service.GetAttendanceById(id);
+
+            return View(attendance);
+        }
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public async Task<IActionResult> SaveChanges(Attendance attendance)
+        {
+            _context.Attendances.Update(attendance);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }

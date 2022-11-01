@@ -1,0 +1,61 @@
+﻿@model Attendance
+@using agSalon.Data.Enums
+
+@{
+    ViewData["Title"] = "Attendances";
+}
+
+<hr />
+
+<a asp-controller="Attendances" asp-action="Index">Back</a>
+
+
+<form asp-action="Edit">
+    <div>
+        <label asp-for="@Model.Client.Surname">Client Surname</label>
+        <input type="hidden" asp-for=@Model.ClientId readonly>
+        <p>@Model.Client.Surname</p>
+    </div>
+    <div>
+        <label asp-for="@Model.Group.Name">Group Name</label>
+        <input  type="hidden" asp-for=@Model.GroupId readonly>
+        <p>@Model.Group.Name</p>
+    </div>
+    <div>
+        <label asp-for="@Model.Service.Name ">Service Name</label>
+        <input  type="hidden" asp-for=@Model.ServiceId readonly>
+        <p>@Model.Service.Name </p>
+    </div>
+    <div>
+        <label asp-for="@Model.Worker.Surname">Worker Surname</label>
+        <input type="hidden" asp-for=@Model.WorkerId>
+        <p>@Model.Worker.Surname</p>
+    </div>
+   
+    <div>
+        <label asp-for="@Model.Date"></label>
+        <input value="@Model.Date.ToString("yyyy-MM-dd")" asp-for=@Model.Date type="date">
+    </div>
+    <div>
+        <label asp-for="@Model.Time"></label>
+        <input value="@Model.Time.ToString()" asp-for=@Model.Time type="time">
+    </div>
+    <div>
+        <label asp-for="@Model.Price"></label>
+        <input type="hidden" asp-for=@Model.Price readonly />
+        <p>@Model.Price</p>
+    </div>
+    <div>
+        <label asp-for="@Model.IsRendered"></label>
+        <select asp-for=@Model.IsRendered asp-items="@Html.GetEnumSelectList<YesNoEnum>()"></select>
+    </div>
+    <div>
+        <label asp-for="@Model.IsPaid"></label>
+        <select asp-for=@Model.IsPaid asp-items="@Html.GetEnumSelectList<YesNoEnum>()"></select>
+    </div>
+    <div>
+        <input type="submit" value="Set">
+    </div>
+</form>
+
+
