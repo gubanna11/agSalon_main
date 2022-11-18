@@ -66,7 +66,9 @@ namespace agSalon.Controllers
 
         public ActionResult WorkersDropdown(int id)
         {
-            return PartialView(_context.Workers_Groups.Include(wg => wg.Worker).Where(wg => wg.GroupId == id).Select(wg => wg.Worker).ToList());
+            return PartialView(_context.Workers_Groups
+                //.Include(wg => wg.Worker).Where(wg => wg.GroupId == id).Select(wg => wg.Worker)
+                .ToList());
         }
 
 

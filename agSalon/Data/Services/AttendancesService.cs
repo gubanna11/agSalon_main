@@ -32,7 +32,7 @@ namespace agSalon.Data.Services
             };
 
             //!!!!!!!!!!!!!
-            attendance.ClientId = 1; //!!!!!!
+            attendance.ClientId = ""; //!!!!!!
             //!!!!!!!!!!!!!
 
             await _context.Attendances.AddAsync(attendance);
@@ -46,7 +46,7 @@ namespace agSalon.Data.Services
             {
                 Groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync(),
                 Services = await _context.Services.Include(s => s.Service_Group).Where(s => s.Service_Group.GroupId == groupId).OrderBy(s => s.Name).ToListAsync(),
-                Workers = await _context.Workers_Groups.Include(wg => wg.Worker).Where(wg => wg.GroupId == groupId).Select(wg => wg.Worker).ToListAsync()
+                //Workers = await _context.Workers_Groups.Include(wg => wg.Worker).Where(wg => wg.GroupId == groupId).Select(wg => wg.Worker).ToListAsync()
             };
 
             return dropdowns;
@@ -55,28 +55,40 @@ namespace agSalon.Data.Services
         //GET ATTENDANCES
 
         public async Task<Attendance> GetAttendanceById(int id)
-            => await _context.Attendances.Where(a => a.Id == id).Include(a => a.Client).Include(a => a.Group)
-                .Include(a => a.Service).Include(a => a.Worker).FirstOrDefaultAsync();
+            => await _context.Attendances.Where(a => a.Id == id)
+            //.Include(a => a.Client)
+            .Include(a => a.Group)
+                //.Include(a => a.Service).Include(a => a.Worker)
+                .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<Attendance>> GetNotRenderedAttendances()
         {
-            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No).Include(a => a.Client).Include(a => a.Group)
-                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No)
+                //.Include(a => a.Client)
+                .Include(a => a.Group)
+                //.Include(a => a.Service).Include(a => a.Worker)
+                .ToListAsync();
             return attendances;
         }
 
         public async Task<IEnumerable<Attendance>> GetNotRenderedIsPaidAttendances()
         {
-            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.Yes).Include(a => a.Client).Include(a => a.Group)
-                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.Yes).
+                //.Include(a => a.Client).
+                Include(a => a.Group)
+                //.Include(a => a.Service).Include(a => a.Worker)
+                .ToListAsync();
             return attendances;
         }
 
 
         public async Task<IEnumerable<Attendance>> GetNotRenderedNotPaidAttendances()
         {
-            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.No).Include(a => a.Client).Include(a => a.Group)
-                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.No && a.IsPaid == YesNoEnum.No)
+                //.Include(a => a.Client)
+                .Include(a => a.Group)
+//                .Include(a => a.Service).Include(a => a.Worker)
+                .ToListAsync();
             return attendances;
         }
 
@@ -84,8 +96,11 @@ namespace agSalon.Data.Services
 
         public async Task<IEnumerable<Attendance>> GetIsRenderedAttendances()
         {
-            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.Yes).Include(a => a.Client).Include(a => a.Group)
-                .Include(a => a.Service).Include(a => a.Worker).ToListAsync();
+            var attendances = await _context.Attendances.Where(a => a.IsRendered == YesNoEnum.Yes)
+                //.Include(a => a.Client)
+                .Include(a => a.Group)
+                //.Include(a => a.Service).Include(a => a.Worker)
+                .ToListAsync();
             return attendances;
         }
 

@@ -7,12 +7,12 @@
 <div>
     @foreach (var item in Model)
     {
-        <p>@item.Surname</p>
+        @*<p>@item.Surname</p>
         foreach (var wg in item.Workers_Groups)
         {
             <p>@wg.Group.Name</p>
         }
         @Html.DisplayFor(a => item.DateBirth);
-        <br /><br />
+        <br /><br />*@
     }
 </div>

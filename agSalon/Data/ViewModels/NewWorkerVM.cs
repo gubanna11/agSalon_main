@@ -12,15 +12,16 @@ namespace agSalon.Data.ViewModels
     {
         [Key]
         [Column("id"), Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
+
+        [Column("name"), Required]
+        [StringLength(20)]
+        public string Name { get; set; }
 
         [Column("surname"), Required]
         [StringLength(45)]
         public string Surname { get; set; }
 
-        [Column("initial"), Required]
-        [StringLength(5)]
-        public string Initials { get; set; }
 
         [Column("phone"), Required]
         [StringLength(13)]

@@ -16,7 +16,7 @@ namespace agSalon.Models
         public int Id { get; set; }
 
         [Column("client_id"), Required]
-        public int ClientId { get; set; }
+        public string ClientId { get; set; }
         public Client Client { get; set; }
 
         [Column("group_id"), ]
@@ -29,7 +29,7 @@ namespace agSalon.Models
         public Service Service { get; set; }
 
         [Column("worker_id"), Required]
-        public int WorkerId { get; set; }
+        public string WorkerId { get; set; }
         public Worker Worker { get; set; }
 
 

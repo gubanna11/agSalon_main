@@ -17,9 +17,9 @@ namespace agSalon.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    surname = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    name = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    initial = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: false)
+                    surname = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     phone = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -68,9 +68,9 @@ namespace agSalon.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    surname = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    name = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    initial = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: false)
+                    surname = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     phone = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -121,9 +121,10 @@ namespace agSalon.Migrations
                     service_id = table.Column<int>(type: "int", nullable: true),
                     worker_id = table.Column<int>(type: "int", nullable: false),
                     date = table.Column<DateTime>(type: "date", nullable: false),
-                    time = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    time = table.Column<TimeSpan>(type: "time", nullable: true),
                     price = table.Column<double>(type: "double", nullable: false),
-                    rendered = table.Column<int>(type: "int", nullable: false)
+                    rendered = table.Column<int>(type: "int", nullable: false),
+                    paid = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,9 +182,10 @@ namespace agSalon.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_client_id",
+                name: "IX_Attendances_client_id_date_service_id",
                 table: "Attendances",
-                column: "client_id");
+                columns: new[] { "client_id", "date", "service_id" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_group_id",
@@ -196,9 +198,10 @@ namespace agSalon.Migrations
                 column: "service_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_worker_id",
+                name: "IX_Attendances_worker_id_date_service_id",
                 table: "Attendances",
-                column: "worker_id");
+                columns: new[] { "worker_id", "date", "service_id" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_name",

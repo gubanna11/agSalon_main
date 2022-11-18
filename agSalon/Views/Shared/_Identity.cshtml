@@ -1,0 +1,17 @@
+﻿@inject UserManager<Client> UserManager;
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <a asp-controller="Account" asp-action="Login" class="login_btn">Log in</a>
+    <a asp-controller="Account" asp-action="Login">Register</a>
+}
+else
+{
+    <div class="text-center">
+        @UserManager.GetUserName(User)
+    </div>
+    <div>
+        <a asp-action="SignOut">Sign out</a>
+    </div>
+}
+

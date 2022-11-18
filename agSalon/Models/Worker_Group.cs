@@ -9,7 +9,7 @@ namespace agSalon.Models
     public class Worker_Group
     {
         [Column("worker_id")]
-        public int WorkerId { get; set; }
+        public string WorkerId { get; set; }
         public Worker Worker { get; set; }
 
         [Column("group_id")]

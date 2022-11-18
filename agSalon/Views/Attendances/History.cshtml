@@ -22,17 +22,19 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Client.Surname</td>
-                <td>@item.Group.Name</td>
-                <td>@item.Service.Name</td>
-                <td>@item.Worker.Surname</td>
-                <td>@item.Date.ToShortDateString()</td>
-                <td>@item.Time</td>
-                <td>@item.Price</td>
-                <td>@item.IsRendered</td>
-                <td>@item.IsPaid</td>
-            </tr>
+        <tr>
+            @*<td>@item.Client.Surname</td>*@
+            <td>@item.Group.Name</td>
+            <td>@item.Group.Name</td>
+            <td>@item.Service.Name</td>
+            <td>@item.Service.Name</td>
+            @*<td>@item.Worker.Id</td>*@
+            <td>@item.Date.ToShortDateString()</td>
+            <td>@item.Time</td>
+            <td>@item.Price</td>
+            <td>@item.IsRendered</td>
+            <td>@item.IsPaid</td>
+        </tr>
         }
     </tbody>
 </table>

@@ -19,7 +19,7 @@ namespace agSalon.Controllers
 
         public IActionResult Index()
         {
-            var clients = _context.Clients.ToList();
+            var clients = _context.Users.ToList();
 
             return View(clients);
         }
@@ -35,7 +35,7 @@ namespace agSalon.Controllers
             if (!ModelState.IsValid)
                 return View(client);
 
-            await _context.Clients.AddAsync(client);
+            await _context.Users.AddAsync(client);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");

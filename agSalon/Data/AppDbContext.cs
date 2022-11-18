@@ -1,4 +1,5 @@
 ﻿using agSalon.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace agSalon.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext: IdentityDbContext<Client>
     {
         public DbSet<Service> Services { get; set; }
         public DbSet<GroupsOfServices> Groups { get; set; }
         public DbSet<Service_Group> Services_Groups { get; set; }
-        
-        public DbSet<Client>Clients { get; set; }
+
+        //public DbSet<Client> Clients { get; set; }
         public DbSet<Worker> Workers { get; set; }
 
         public DbSet<Worker_Group> Workers_Groups { get; set; }
@@ -34,13 +35,14 @@ namespace agSalon.Data
             /**/
             modelBuilder.Entity<Worker_Group>().HasKey(wg => new { wg.WorkerId, wg.GroupId });
 
-            modelBuilder.Entity<Worker_Group>().HasOne(w => w.Worker).WithMany(wg => wg.Workers_Groups);
+            //modelBuilder.Entity<Worker_Group>().HasOne(w => w.Worker).WithMany(wg => wg.Workers_Groups);
             modelBuilder.Entity<Worker_Group>().HasOne(w => w.Group).WithMany(wg => wg.Workers_Groups);
 
 
             modelBuilder.Entity<Attendance>().HasIndex(att => new { att.ClientId, att.Date, att.ServiceId }).IsUnique();
             modelBuilder.Entity<Attendance>().HasIndex(att => new { att.WorkerId, att.Date, att.ServiceId }).IsUnique();
             modelBuilder.Entity<Attendance>().Property(a => a.Time).HasColumnType("time");
+            
 
             base.OnModelCreating(modelBuilder);
         }

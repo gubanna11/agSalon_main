@@ -43,7 +43,7 @@ namespace agSalon.Controllers
             return View(allGroups);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }

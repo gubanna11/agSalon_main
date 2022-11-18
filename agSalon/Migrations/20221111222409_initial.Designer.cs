@@ -9,7 +9,7 @@ using agSalon.Data;
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221024182620_initial")]
+    [Migration("20221111222409_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,10 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("group_id");
 
+                    b.Property<int>("IsPaid")
+                        .HasColumnType("int")
+                        .HasColumnName("paid");
+
                     b.Property<int>("IsRendered")
                         .HasColumnType("int")
                         .HasColumnName("rendered");
@@ -50,8 +54,8 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("service_id");
 
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("datetime(6)")
+                    b.Property<TimeSpan?>("Time")
+                        .HasColumnType("time")
                         .HasColumnName("time");
 
                     b.Property<int>("WorkerId")
@@ -60,13 +64,15 @@ namespace agSalon.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("GroupId");
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("WorkerId");
+                    b.HasIndex("ClientId", "Date", "ServiceId")
+                        .IsUnique();
+
+                    b.HasIndex("WorkerId", "Date", "ServiceId")
+                        .IsUnique();
 
                     b.ToTable("Attendances");
                 });
@@ -82,11 +88,11 @@ namespace agSalon.Migrations
                         .HasColumnType("date")
                         .HasColumnName("date_birth");
 
-                    b.Property<string>("Initials")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar(5)")
-                        .HasColumnName("initial");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -189,11 +195,11 @@ namespace agSalon.Migrations
                         .HasColumnType("int")
                         .HasColumnName("gender");
 
-                    b.Property<string>("Initials")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar(5)")
-                        .HasColumnName("initial");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Phone")
                         .IsRequired()

@@ -48,10 +48,10 @@ namespace agSalon.Controllers
 
             Worker worker = new Worker
             {
-                Surname = newWorker.Surname,
-                Initials = newWorker.Initials,
-                Phone = newWorker.Phone,
-                DateBirth = newWorker.DateBirth,
+                //Surname = newWorker.Surname,
+                //Name = newWorker.Name,
+                //Phone = newWorker.Phone,
+                //DateBirth = newWorker.DateBirth,
                 Gender = newWorker.Gender,
                 Address = newWorker.Address
             };

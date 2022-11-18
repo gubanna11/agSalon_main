@@ -12,7 +12,7 @@ namespace agSalon.Data.ViewModels
     public class NewAttendanceVM
     {
         [Column("client_id"), Required]
-        public int ClientId { get; set; }
+        public string ClientId { get; set; }
 
         [Column("group_id"),]
 
@@ -24,7 +24,7 @@ namespace agSalon.Data.ViewModels
 
         [Column("worker_id"), Required]
 
-        public int WorkerId { get; set; }
+        public string WorkerId { get; set; }
 
         [Column("date", TypeName = "date"), Required]
 

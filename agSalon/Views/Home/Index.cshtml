@@ -1,13 +1,11 @@
 ﻿@*@model IEnumerable<Service>*@
 
+@inject UserManager<Client> UserManager;
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    @*@Model.First().Name*@
-    @*@ViewBag.date*@
-    
-    
+    @UserManager.GetUserName(User)
 </div>
