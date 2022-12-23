@@ -1,4 +1,5 @@
 ﻿using agSalon.Data;
+using agSalon.Data.Static;
 using agSalon.Data.ViewModels;
 using agSalon.Models;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace agSalon.Controllers
@@ -57,6 +59,52 @@ namespace agSalon.Controllers
             
             TempData["Error"] = "Wrong credentials. Please, try again";
             return View(loginVM);
+        }
+
+        public IActionResult Register() => View(new RegisterVM());
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterVM registerVM)
+        {
+            if (!ModelState.IsValid)
+                return View(registerVM);
+
+            var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
+
+            if (user != null)
+            {
+                TempData["Error"] = "this email address is already in use!";
+                return View(registerVM);
+            }
+
+            var newUser = new Client()
+            {
+                Surname = registerVM.Surname,
+                Name = registerVM.Name,
+                Phone = registerVM.Phone,
+                DateBirth = registerVM.DateBirth,
+                Email = registerVM.EmailAddress,
+                UserName = registerVM.EmailAddress
+            };
+
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.Client);
+                return View("RegisterCompleted");
+            }
+
+            ViewBag.Errors = newUserResponse.Errors;
+
+            return View(registerVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

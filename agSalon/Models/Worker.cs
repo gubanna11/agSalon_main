@@ -19,23 +19,6 @@ namespace agSalon.Models
         [ForeignKey("Id")]
         public Client Client { get; set; }
 
-        [Column("name"), Required]
-        [StringLength(20)]
-        public string Name { get; set; }
-
-        [Column("surname"), Required]
-        [StringLength(45)]
-        public string Surname { get; set; }
-
-
-        [Column("phone"), Required]
-        [StringLength(13)]
-        public string Phone { get; set; }
-
-        [Column("date_birth", TypeName = "date"), Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
-
-        public DateTime DateBirth { get; set; }
 
         [Column("address"), Required]
         [StringLength(45)]
