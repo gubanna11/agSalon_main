@@ -34,13 +34,14 @@ namespace agSalon.Controllers
         {
             List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
-            
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(NewServiceVM newService)
         {
+            //NAME DUPLICATE
             if (!ModelState.IsValid)
             {
                 List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
@@ -66,9 +67,25 @@ namespace agSalon.Controllers
 
             await _context.Services_Groups.AddAsync(serviceGroup);
             await _context.SaveChangesAsync();
-                        
+
             return Redirect("Index/" + serviceGroup.GroupId);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var service = _context.Services.Where(s => s.Id == id).Include(s => s.Service_Group).FirstOrDefault();
+            int groupId = service.Service_Group.GroupId;
+
+			if (service != null)
+            {
+                _context.Services.Remove(service);
+                _context.SaveChanges();
+            }
+
+			ViewBag.GroupName = _context.Groups.Where(n => n.Id == id).Select(n => n.Name).FirstOrDefault();
+
+			return Redirect("~/Services/Index/" + groupId);
+        }
     }
 }

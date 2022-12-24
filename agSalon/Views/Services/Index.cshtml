@@ -1,13 +1,28 @@
 ﻿@model IEnumerable<Service>
 
 @{
-    ViewData["Title"] = "Services";
+	ViewData["Title"] = "Services";
 }
 
 <div>
-    <p>Group: @ViewBag.GroupName</p>
-    @foreach (var item in Model)
-    {
-        <p>@item.Name</p>
-    }
+	<p>Group: @ViewBag.GroupName</p>
+	@foreach (var item in Model)
+	{
+		<p>@item.Name</p>
+
+		<a onclick="DeleteConfirmation()">Delete</a>
+		<form id="confirm" style="display:none" asp-action="Delete" asp-route-id="@item.Id">
+			<input type="submit" style="color:red" value="Delete">
+		</form>
+
+	}
 </div>
+
+@section Scripts{
+	<script>
+		function DeleteConfirmation() {
+			const form = document.getElementById('confirm');
+			form.style.display = "block";
+		}
+	</script>
+}
