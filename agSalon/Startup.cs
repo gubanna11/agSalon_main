@@ -83,7 +83,9 @@ namespace agSalon
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+			AppDbInitializer.Seed(app);
+			AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+            
         }
     }
 }
