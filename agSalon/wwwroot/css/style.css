@@ -1,0 +1,151 @@
+﻿@import url(nullable.css);
+
+body {
+    color: #333;
+    font-size: 16px;
+    font-family: 'Open Sans';
+}
+
+.wrapper {
+    min-height: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: #fff;
+}
+
+.header__container {
+    max-width: 1200px;
+    margin: 0px auto;
+    display: flex;
+    padding: 0px 30px;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 70px;
+}
+
+.header__logo {
+    
+}
+
+
+.menu__list {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.menu__list > li {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 34px 0px;
+}
+
+
+.menu__sub-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    min-width: 220px;
+    padding: 20px 25px;
+    transition: all 5s ease;
+    border: 1px solid #d8dede;
+    border-radius: 7px;
+}
+
+.menu__sub-link {
+    border-bottom: 1px solid #d8dede;
+    padding: 15px;
+}
+
+.menu__sub-link > a {
+    color: #333;
+}
+
+.menu__sub-link:first-child {
+    padding-top: 0;
+}
+
+.menu__sub-link:last-child {
+    padding-bottom: 0;
+    border: none;
+}
+
+.menu__arrow {
+    display: block;
+    width: 0;
+    height: 0;
+    margin: 0px 0px 0px 10px;
+    transition: transform 0.5s ease 0s;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #000;
+}
+
+/*.active {
+    display: block;
+}*/
+
+.menu__link.active .menu__arrow{
+    transform: rotate(-180deg);
+}
+
+.menu__link.active .menu__sub-list {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------------------------------*/
+/*---------------------------------------------*/
+/*---------------------------------------------*/
+
+
+.main {
+    padding: 90px 0px 30px 0px;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+
+/*---------------------------------------------*/
+/*---------------------------------------------*/
+/*---------------------------------------------*/
+
+
+.login_btn {
+    color: black;
+    display: block;
+    width: 100px;
+    height: 50px;
+    background-color: #fff6a5;
+    text-align: center;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+.footer{
+    padding: 50px;
+}

@@ -23,10 +23,10 @@ namespace agSalon.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index(int groupId)
         {
-            var services = _context.Services.Where(s => s.Service_Group.GroupId == id);
-            ViewBag.GroupName = _context.Groups.Where(n => n.Id == id).Select(n => n.Name).FirstOrDefault();
+            var services = _context.Services.Where(s => s.Service_Group.GroupId == groupId);
+            ViewBag.GroupName = _context.Groups.Where(n => n.Id == groupId).Select(n => n.Name).FirstOrDefault();
             return View(services);
         }
 

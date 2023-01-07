@@ -2,8 +2,8 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
+        <a asp-controller="Account" asp-action="Login" class="login_btn">Log in</a>
     <a asp-controller="Account" asp-action="Register">Register</a>
-    <a asp-controller="Account" asp-action="Login" class="login_btn">Log in</a>
 }
 else
 {
