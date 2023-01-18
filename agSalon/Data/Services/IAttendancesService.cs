@@ -1,4 +1,5 @@
-﻿using agSalon.Data.ViewModels;
+﻿using agSalon.Data.Base;
+using agSalon.Data.ViewModels;
 using agSalon.Models;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace agSalon.Data.Services
 {
-    public interface IAttendancesService
+    public interface IAttendancesService : IEntityBaseRepository<Attendance>
     {
         
-        Task AddNewAttendance(NewAttendanceVM newAttendance);
+        Task AddNewAttendance(NewAttendanceVM newAttendance, string userId);
         Task<AttendanceDropdownsVM> GetAttendanceDropdownsValues(int groupId);
 
         Task<Attendance> GetAttendanceById(int id);

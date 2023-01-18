@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agSalon.Data;
 
@@ -10,9 +11,11 @@ using agSalon.Data;
 namespace agSalon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230118080659_group-img")]
+    partial class groupimg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,7 +207,7 @@ namespace agSalon.Migrations
                     b.HasIndex("WorkerId", "Date", "ServiceId")
                         .IsUnique();
 
-                    b.ToTable("Attendances", (string)null);
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("agSalon.Models.Client", b =>
@@ -317,7 +320,7 @@ namespace agSalon.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("groups_of_services", (string)null);
+                    b.ToTable("groups_of_services");
                 });
 
             modelBuilder.Entity("agSalon.Models.Service", b =>
@@ -342,7 +345,7 @@ namespace agSalon.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("agSalon.Models.Service_Group", b =>
@@ -362,7 +365,7 @@ namespace agSalon.Migrations
                     b.HasIndex("ServiceId")
                         .IsUnique();
 
-                    b.ToTable("Services_Groups", (string)null);
+                    b.ToTable("Services_Groups");
                 });
 
             modelBuilder.Entity("agSalon.Models.Worker", b =>
@@ -383,7 +386,7 @@ namespace agSalon.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workers", (string)null);
+                    b.ToTable("Workers");
                 });
 
             modelBuilder.Entity("agSalon.Models.Worker_Group", b =>
@@ -400,7 +403,7 @@ namespace agSalon.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Workers_Groups", (string)null);
+                    b.ToTable("Workers_Groups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

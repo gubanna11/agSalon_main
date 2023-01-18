@@ -25,12 +25,12 @@
 	</div>
 	<div>
 		<label asp-for="Phone"></label>
-		<input asp-for="Phone" />
+		<input type="tel" asp-for="Phone" />
 		<span asp-validation-for="Phone"></span>
 	</div>
 	<div>
 		<label asp-for="EmailAddress"></label>
-		<input asp-for="EmailAddress" />
+		<input pattern="[0-9]*" asp-for="EmailAddress" />
 		<span asp-validation-for="EmailAddress"></span>
 	</div>
 	<div>

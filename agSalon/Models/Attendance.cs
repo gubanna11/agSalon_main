@@ -1,4 +1,5 @@
-﻿using agSalon.Data.Enums;
+﻿using agSalon.Data.Base;
+using agSalon.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace agSalon.Models
 {
-    public class Attendance
+    public class Attendance:IEntityBase
     {
         [Key]
         [Column("id")]
@@ -22,7 +23,7 @@ namespace agSalon.Models
         [Column("group_id"), ]
 
         public int? GroupId { get; set; }
-        public GroupsOfServices Group { get; set; }
+        public GroupOfServices Group { get; set; }
 
         [Column("service_id")]
         public int? ServiceId { get; set; }

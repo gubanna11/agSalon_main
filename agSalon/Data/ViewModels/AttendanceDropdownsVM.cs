@@ -10,12 +10,12 @@ namespace agSalon.Data.ViewModels
     {
         public AttendanceDropdownsVM()
         {
-            Groups = new List<GroupsOfServices>();
+            Groups = new List<GroupOfServices>();
             Services = new List<Service>();
             Workers = new List<Worker>();
         }
 
-        public List<GroupsOfServices> Groups { get; set; }
+        public List<GroupOfServices> Groups { get; set; }
         public List<Service> Services { get; set; }
         public List<Worker> Workers { get; set; }
     }

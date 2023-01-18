@@ -25,14 +25,14 @@ namespace agSalon.Controllers
 
         public IActionResult Index(int groupId)
         {
-            var services = _context.Services.Where(s => s.Service_Group.GroupId == groupId);
+            var services = _context.Services.Include(s => s.Service_Group).Where(s => s.Service_Group.GroupId == groupId);
             ViewBag.GroupName = _context.Groups.Where(n => n.Id == groupId).Select(n => n.Name).FirstOrDefault();
             return View(services);
         }
 
         public async Task<IActionResult> Create()
         {
-            List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+            List<GroupOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
             return View();
@@ -44,7 +44,7 @@ namespace agSalon.Controllers
             //NAME DUPLICATE
             if (!ModelState.IsValid)
             {
-                List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+                List<GroupOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
                 ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
                 return View(newService);
@@ -77,7 +77,7 @@ namespace agSalon.Controllers
             var service = _context.Services.Where(s => s.Id == id).Include(s => s.Service_Group).FirstOrDefault();
             int groupId = service.Service_Group.GroupId;
 
-			if (service != null)
+            if (service != null)
             {
                 _context.Services.Remove(service);
                 _context.SaveChanges();

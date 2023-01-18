@@ -22,14 +22,8 @@ namespace agSalon.Controllers
 
         public IActionResult Index()
         {
-            DateTime d = new DateTime(2020, 2, 1);
-            //ViewBag.date = d.ToShortDateString();
-            //return View();
-
-            //return View((object)d.ToShortDateString());
-            //return View("Index", d.ToShortDateString());
-            
-            return View();
+            var groups = _context.Groups.ToList();
+            return View(groups);
         }
 
         public IActionResult Privacy()
