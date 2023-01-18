@@ -22,29 +22,29 @@ namespace agSalon.Data
 
 				if (!context.Groups.Any())
 				{
-					context.Groups.AddRange(new List<GroupsOfServices>()
+					context.Groups.AddRange(new List<GroupOfServices>()
 					{
-						new GroupsOfServices()
+						new GroupOfServices()
 						{
 							Name = "Cosmetology"
 						},
-						new GroupsOfServices()
+						new GroupOfServices()
 						{
 							Name = "Massages"
 						},
-						new GroupsOfServices()
+						new GroupOfServices()
 						{
 							Name = "Nail service"
 						},
-						new GroupsOfServices()
+						new GroupOfServices()
 						{
 							Name = "Hairdresser's"
 						},
-						new GroupsOfServices()
+						new GroupOfServices()
 						{
 							Name = "Makeup"
 						},
-						new GroupsOfServices()
+						new GroupOfServices()
 						{
 							Name = "Depilation"
 						}

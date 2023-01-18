@@ -16,6 +16,6 @@ namespace agSalon.Models
 
         [Column("group_id")]
         public int GroupId { get; set; }
-        public GroupsOfServices Group { get; set; }
+        public GroupOfServices Group { get; set; }
     }
 }

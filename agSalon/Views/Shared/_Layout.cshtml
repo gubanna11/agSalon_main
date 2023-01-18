@@ -16,6 +16,7 @@
 </head>
 <body>
 	<div class="wrapper">
+
 		<header class="header">
 			<nav class="header__container">
 
@@ -31,15 +32,19 @@
 							</li>*@
 
 							<li class="menu__link">
-								<a class="" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
-								<span class="menu__arrow"></span>
+								<div class="menu__link-name">
+									<a class="" asp-area="" asp-controller="Groups" asp-action="Index">
+										Groups
+									</a>
+									<span class="menu__arrow"></span>
+								</div>
 
 								<ul class="menu__sub-list">
 									@{
 										var groups = _context.Groups.ToList();
 										foreach (var item in groups)
 										{
-											<li class="menu__sub-link"><a asp-asp-controller="Services" asp-action="Index" asp-route-id="@item.Id">@item.Name</a></li>
+											<li class="menu__sub-link"><a asp-controller="Services" asp-action="Index" asp-route-groupId="@item.Id">@item.Name</a></li>
 										}
 									}
 								</ul>
@@ -50,11 +55,13 @@
 							</li>
 
 							<li class="menu__link">
-								<a class="">
-									<i class="bi bi-gear"></i>
-									Attendances
-								</a>
-								<span class="menu__arrow"></span>
+								<div class="menu__link-name">
+									<a class="">
+										<i class="bi bi-gear"></i>
+										Attendances
+									</a>
+									<span class="menu__arrow"></span>
+								</div>
 								<ul class="menu__sub-list">
 									<li class="menu__sub-link"><a asp-controller="Attendances" asp-action="Index"><i class="bi bi-person-square"></i> Not rendered</a></li>
 									<li class="menu__sub-link"><a asp-controller="Attendances" asp-action="History"><i class="bi bi-person-square"></i> History</a></li>
@@ -63,24 +70,26 @@
 							</li>
 
 							<li class="menu__link">
-								<a class="" href="">
-									<i class="bi bi-gear"></i> Management
-								</a>
-								<span class="menu__arrow"></span>
+								<div class="menu__link-name">
+									<a class="">
+										<i class="bi bi-gear"></i> Management
+									</a>
+									<span class="menu__arrow"></span>
+								</div>
 								<ul class="menu__sub-list">
-									<li><a class="" asp-controller="Groups" asp-action="Create"><i class="bi bi-collection"></i> New Group</a></li>
-									<li><a class="" asp-controller="Services" asp-action="Create"><i class="bi bi-receipt"></i> New Service</a></li>
+									<li class="menu__sub-link"><a class="" asp-controller="Groups" asp-action="Create"><i class="bi bi-collection"></i> New Group</a></li>
+									<li class="menu__sub-link"><a class="" asp-controller="Services" asp-action="Create"><i class="bi bi-receipt"></i> New Service</a></li>
 									@*<a class="dropdown-item" asp-controller="Workers" asp-action="Create"><i class="bi bi-person-square"></i> New Worker</a>*@
 									@*<a class="dropdown-item" asp-controller="Clients" asp-action="Create"><i class="bi bi-person-square"></i> New Client</a>*@
-									<li><a class="" asp-controller="Clients" asp-action="Index"><i class="bi bi-person-square"></i> Clients</a></li>
-									<li><a class="" asp-controller="Workers" asp-action="Index"><i class="bi bi-person-square"></i> Workers</a></li>
-									<li><a class="" asp-controller="Account" asp-action="Users"><i class="bi bi-person-square"></i> Users</a></li>
+									<li class="menu__sub-link"><a class="" asp-controller="Clients" asp-action="Index"><i class="bi bi-person-square"></i> Clients</a></li>
+									<li class="menu__sub-link"><a class="" asp-controller="Workers" asp-action="Index"><i class="bi bi-person-square"></i> Workers</a></li>
+									<li class="menu__sub-link"><a class="" asp-controller="Account" asp-action="Users"><i class="bi bi-person-square"></i> Users</a></li>
 
 									@if (User.Identity.IsAuthenticated && User.IsInRole(UserRoles.Admin))
 									{
-										<li><a class="" asp-controller="Account" asp-action="Register"><i class="bi bi-person-square"></i> New Client</a></li>
-										<li><a class="" asp-controller="Account" asp-action="CreateWorker"><i class="bi bi-person-square"></i> New Worker</a></li>
-										<li><a class="" asp-controller="Account" asp-action="CreateAdmin"><i class="bi bi-person-square"></i> New Admin</a></li>
+										<li class="menu__sub-link"><a class="" asp-controller="Account" asp-action="Register"><i class="bi bi-person-square"></i> New Client</a></li>
+										<li class="menu__sub-link"><a class="" asp-controller="Account" asp-action="CreateWorker"><i class="bi bi-person-square"></i> New Worker</a></li>
+										<li class="menu__sub-link"><a class="" asp-controller="Account" asp-action="CreateAdmin"><i class="bi bi-person-square"></i> New Admin</a></li>
 									}
 								</ul>
 							</li>
@@ -95,11 +104,11 @@
 
 			</nav>
 		</header>
-		<div class="main">
+		<section class="main">
 			<main role="main" class="">
 				@RenderBody()
 			</main>
-		</div>
+		</section>
 
 		<footer class="footer">
 			<div class="">
@@ -107,6 +116,7 @@
 			</div>
 		</footer>
 	</div>
+	<script src="https://kit.fontawesome.com/9878cef510.js" crossorigin="anonymous"></script>
 	<script src="~/js/main.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 	@*<script src="~/lib/jquery/dist/jquery.min.js"></script>

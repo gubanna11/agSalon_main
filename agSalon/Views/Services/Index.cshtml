@@ -4,25 +4,24 @@
 	ViewData["Title"] = "Services";
 }
 
-<div>
+<div class="services__section">
 	<p>Group: @ViewBag.GroupName</p>
+
+	@*<form>
+		<input type="submit" asp-action="Update" asp-controller="" asp-route-groups="@Model.ToList()" value="SAVE">
+	</form>*@
+
 	@foreach (var item in Model)
-	{
-		<p>@item.Name</p>
+	{	
+		<p contenteditable="true">@item.Name</p>
 
-		<a onclick="DeleteConfirmation()">Delete</a>
-		<form id="confirm" style="display:none" asp-action="Delete" asp-route-id="@item.Id">
-			<input type="submit" style="color:red" value="Delete">
-		</form>
+		@await Component.InvokeAsync("Delete", item.Id)
 
+		@*<div class="delete">
+			<a class="delete-confirm">Delete</a>
+			<form asp-action="Delete" asp-route-id="@item.Id">
+				<input type="submit" style="color:red" value="Delete">
+			</form>
+		</div>*@
 	}
 </div>
-
-@section Scripts{
-	<script>
-		function DeleteConfirmation() {
-			const form = document.getElementById('confirm');
-			form.style.display = "block";
-		}
-	</script>
-}

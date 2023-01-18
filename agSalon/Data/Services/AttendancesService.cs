@@ -1,6 +1,8 @@
-﻿using agSalon.Data.Enums;
+﻿using agSalon.Data.Base;
+using agSalon.Data.Enums;
 using agSalon.Data.ViewModels;
 using agSalon.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,16 +11,18 @@ using System.Threading.Tasks;
 
 namespace agSalon.Data.Services
 {
-    public class AttendancesService : IAttendancesService
+    public class AttendancesService : EntityBaseRepository<Attendance>, IAttendancesService
     {
         private readonly AppDbContext _context;
-        public AttendancesService(AppDbContext context)
+        private readonly UserManager<Client> _userManager;
+        public AttendancesService(AppDbContext context, UserManager<Client> userManager):base(context)
         {
             _context = context;
+            _userManager = userManager;
         }
 
 
-        public async Task AddNewAttendance(NewAttendanceVM newAttendance)
+        public async Task AddNewAttendance(NewAttendanceVM newAttendance, string userId)
         {
             Attendance attendance = new Attendance()
             {
@@ -31,9 +35,8 @@ namespace agSalon.Data.Services
                 IsPaid = YesNoEnum.No
             };
 
-            //!!!!!!!!!!!!!
-            attendance.ClientId = ""; //!!!!!!
-            //!!!!!!!!!!!!!
+            
+            attendance.ClientId = userId; 
 
             await _context.Attendances.AddAsync(attendance);
             await _context.SaveChangesAsync();

@@ -1,11 +1,63 @@
-﻿@*@model IEnumerable<Service>*@
+﻿@model IEnumerable<GroupOfServices>
 
 @inject UserManager<Client> UserManager;
 
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
-<section class="main">
-    
-</section>
+
+
+	<div class="main-slider-wrapper">
+		<div class="main-slider">
+			<div class="slide active">
+				<img src="img/img_1.jpg" />
+			</div>
+			<div class="slide">
+				<img src="img/img_2.jpg" />
+			</div>
+			<div class="slide">
+				<img src="img/img_3.jpg" />
+			</div>
+
+			<div id="btn-prev"></div>
+			<div id="btn-next"></div>
+		</div>
+	</div>
+
+	@*<div class="dots-wrapper">
+
+	</div>*@
+
+	<div class="looking-for">
+		<div class="looking-for-content">
+			<p class="looking-for-content__title">I'm looking for...</p>
+			<div class="looking-for-content__body">
+				<div class="looking-for-content__body-item">
+					<div class="looking-for-content__body-item-icon">
+						<div class="looking-for-icon">
+							<i class="bi bi-suit-heart"></i>
+						</div>
+					</div>
+					<p class="looking-for-content__body-item-name">Nails</p>
+				</div>
+				<div>Cosmetology</div>
+				<div>Depilation</div>
+				<div>Hair</div>
+				<div>Massage</div>
+				<div>Something</div>
+				<div>Something</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+@section Scripts{
+	<script>
+		let footer = document.querySelector('.footer');
+		footer.style = 'display:none';
+	</script>
+}
+

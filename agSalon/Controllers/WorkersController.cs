@@ -29,7 +29,7 @@ namespace agSalon.Controllers
 
         public async Task<IActionResult> Create()
         {
-            List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+            List<GroupOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
             return View();
@@ -40,7 +40,7 @@ namespace agSalon.Controllers
         {
             if (!ModelState.IsValid)
             {
-                List<GroupsOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+                List<GroupOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
                 ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
                 return View(newWorker);

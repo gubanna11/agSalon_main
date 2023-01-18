@@ -1,26 +1,33 @@
-﻿@model IEnumerable<GroupsOfServices>
+﻿@model IEnumerable<GroupOfServices>
 
 @{
-    ViewData["Title"] = "Groups of services";
+	ViewData["Title"] = "Groups of services";
 }
 
-<div>
-    @foreach (var item in Model)
-    {
-        <a asp-controller="Services" asp-action="Index" asp-route-id="@item.Id">@item.Name</a>
+<div class="groups__section">
 
-        @*foreach (var service in item.Services_Groups)
-            {
-                <p>@service.Service.Name</p>
-            }*@
+	@foreach (var item in Model)
+	{
+		<a asp-controller="Services" asp-action="Index" asp-route-groupId="@item.Id">@item.Name</a>
+
+		@if(item.ImgUrl != "")
+		{
+			<div>
+				<img src="/img/groups/@item.ImgUrl" height="150" />
+			</div>
+		}
+
+		<a asp-action="Edit" asp-route-groupId="@item.Id">Update</a>
 
 
-            @*List<Service_Group> services = ViewBag.Services;
-            services = services.Where(s => s.GroupId == item.Id).ToList();
+		@await Component.InvokeAsync("Delete", item.Id)
 
-            foreach (Service_Group service in services)
-            {
-                <p>@service.Service.Name</p>
-            }*@
-    }
+		@*<div class="delete">
+			<a class="delete-confirm">Delete</a>
+
+			<form asp-action="Delete" asp-route-id="@item.Id">
+				<input type="submit" style="color:red" value="Delete" />
+			</form>
+		</div>*@
+	}
 </div>

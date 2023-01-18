@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace agSalon.Controllers
@@ -52,8 +53,9 @@ namespace agSalon.Controllers
         [HttpPost]
         public async Task<IActionResult> NewAttendance(NewAttendanceVM newAttendance)
         {
-            await _service.AddNewAttendance(newAttendance);
-
+            
+            await _service.AddNewAttendance(newAttendance, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            
             return RedirectToAction("Index");
         }
 
