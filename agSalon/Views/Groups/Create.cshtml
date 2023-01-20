@@ -32,7 +32,11 @@
     <script>
         const img = document.getElementById('img');
         img.addEventListener('change', function(){
-            document.getElementById('ImgPrev').src = window.URL.createObjectURL(this.files[0])
+            const imgPrev =  document.getElementById('ImgPrev');
+            if(img.files[0] == null)
+                imgPrev.src = '';
+            else 
+               imgPrev.src = window.URL.createObjectURL(this.files[0])
         })
     </script>
 }

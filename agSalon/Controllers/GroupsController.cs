@@ -23,26 +23,12 @@ namespace agSalon.Controllers
     public class GroupsController : Controller
     {
         private readonly IGroupsService _service;
-        private readonly AppDbContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+      
 
         public GroupsController(IGroupsService service, AppDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _service = service;
-            _context = context;
-            _webHostEnvironment = webHostEnvironment;
         }
-
-
-        //public async Task<IEnumerable<T>> GetAllAsync<T>(params Expression<Func<T, object>>[] includeProperties) where T:class
-        //{
-        //    IQueryable<T> query = _context.Set<T>();
-
-        //    query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-
-        //    return await query.ToListAsync();
-        //}
-
         public async Task<IActionResult> Index()
         {
 			var allGroups = await _service.GetAllAsync();
@@ -55,30 +41,12 @@ namespace agSalon.Controllers
             return View();
         }
 
-        private string UploadFIle(IFormFile file)
-        {
-            string uniqueFileName = null;
-
-            if(file != null)
-            {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img/groups");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-            }
-
-            return uniqueFileName;
-        }
+       
 
         [HttpPost]
         public async Task<IActionResult> Create(GroupOfServices newGroup)
         {
-            newGroup.ImgUrl = UploadFIle(newGroup.Img);
-
-            await _service.AddAsync(newGroup);
+            await _service.AddNewGroupAsync(newGroup);
 
             return RedirectToAction("Index");
         }
@@ -94,10 +62,7 @@ namespace agSalon.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(GroupOfServices group)
 		{
-            if(group.Img != null)
-			    group.ImgUrl = UploadFIle(group.Img);
-
-			await _service.UpdateAsync(group);
+			await _service.UpdateGroupAsync(group);
 
 			return RedirectToAction("Index");
 		}
