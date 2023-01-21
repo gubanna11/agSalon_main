@@ -15,6 +15,13 @@
 	{	
 		<p contenteditable="true">@item.Name</p>
 
+		@for(int i = 0; i < 10; i++){
+			<span>.</span>
+		}
+		
+		<p>@item.Price</p>
+
+		<a asp-action="Edit" asp-route-id="@item.Id">Update</a>
 		@await Component.InvokeAsync("Delete", item.Id)
 
 		@*<div class="delete">

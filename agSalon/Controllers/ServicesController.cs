@@ -1,5 +1,6 @@
 ﻿using agSalon.Data;
 using agSalon.Data.Enums;
+using agSalon.Data.Services;
 using agSalon.Data.ViewModels;
 using agSalon.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,76 +17,106 @@ namespace agSalon.Controllers
 {
     public class ServicesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IServicesService _service;
+        private readonly IGroupsService _serviceGroup;
 
-        public ServicesController(AppDbContext context)
+        public ServicesController(AppDbContext context, IServicesService service, IGroupsService serviceGroup)
         {
-            _context = context;
+            _service = service;
+            _serviceGroup = serviceGroup;
         }
 
-        public IActionResult Index(int groupId)
+        public async Task<IActionResult> Index(int groupId)
         {
-            var services = _context.Services.Include(s => s.Service_Group).Where(s => s.Service_Group.GroupId == groupId);
-            ViewBag.GroupName = _context.Groups.Where(n => n.Id == groupId).Select(n => n.Name).FirstOrDefault();
+            var services = _service.GetServicesByGroupId(groupId);
+
+            ViewBag.GroupName = (await _serviceGroup.GetByIdAsync(groupId)).Name;
+
             return View(services);
         }
 
         public async Task<IActionResult> Create()
         {
-            List<GroupOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
+            var groups = await _serviceGroup.GetAllAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(NewServiceVM newService)
+        public async Task<IActionResult> Create(ServiceVM newService)
         {
-            //NAME DUPLICATE
-            if (!ModelState.IsValid)
+            var groups = await _serviceGroup.GetAllAsync();
+            ViewBag.Groups = new SelectList(groups, "Id", "Name");
+            try
             {
-                List<GroupOfServices> groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
-                ViewBag.Groups = new SelectList(groups, "Id", "Name");
+                if (!ModelState.IsValid)
+                {
+                    return View(newService);
+                }
 
+                await _service.AddNewServiceAsync(newService);
+            }
+            catch(Exception)
+            {
+                ViewBag.Duplicate = "DUPLICATE NAME";
                 return View(newService);
             }
 
-            Service service = new Service
-            {
-                Name = newService.Name,
-                Price = newService.Price
-            };
-
-            await _context.Services.AddAsync(service);
-            await _context.SaveChangesAsync();
-
-            Service_Group serviceGroup = new Service_Group
-            {
-                ServiceId = service.Id,
-                GroupId = newService.GroupId
-            };
-
-            await _context.Services_Groups.AddAsync(serviceGroup);
-            await _context.SaveChangesAsync();
-
-            return Redirect("Index/" + serviceGroup.GroupId);
+            return Redirect("Index?groupId=" + newService.GroupId);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var service = _context.Services.Where(s => s.Id == id).Include(s => s.Service_Group).FirstOrDefault();
+            var service = await _service.GetServiceByIdWithGroupAsync(id);
+
             int groupId = service.Service_Group.GroupId;
 
             if (service != null)
             {
-                _context.Services.Remove(service);
-                _context.SaveChanges();
+                await _service.DeleteAsync(id);
             }
 
-			ViewBag.GroupName = _context.Groups.Where(n => n.Id == id).Select(n => n.Name).FirstOrDefault();
+            return Redirect("~/Services/Index?groupId=" + groupId);
+        }
 
-			return Redirect("~/Services/Index/" + groupId);
+        public async Task<IActionResult> Edit(int id)
+        {
+            var service = await _service.GetServiceByIdWithGroupAsync(id);
+            var groups = await _serviceGroup.GetAllAsync();
+            ViewBag.Groups = new SelectList(groups, "Id", "Name");
+
+            ViewBag.GroupName = service.Service_Group.Group.Name;
+
+            ServiceVM serviceVM = new ServiceVM()
+            {
+                Id = id,
+                Name = service.Name,
+                Price = service.Price,
+                GroupId = service.Service_Group.GroupId
+            };
+
+            return View(serviceVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ServiceVM serviceVM)
+        {
+            var groups = await _serviceGroup.GetAllAsync();
+            ViewBag.Groups = new SelectList(groups, "Id", "Name");
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(serviceVM);
+                }
+                await _service.UpdateServiceAsync(serviceVM);
+            }
+            catch(Exception){
+                return View(serviceVM);
+            }
+            return Redirect("~/Services/Index?groupId=" + serviceVM.GroupId);
         }
     }
 }

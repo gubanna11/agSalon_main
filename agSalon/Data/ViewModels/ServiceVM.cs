@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace agSalon.Data.ViewModels
 {
-    public class NewServiceVM
+    public class ServiceVM
     {
         
         [Column("id")]
@@ -21,7 +21,7 @@ namespace agSalon.Data.ViewModels
 
         [Required]
         [Column("price")]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         public int GroupId { get; set; }
     }

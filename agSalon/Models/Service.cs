@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using agSalon.Data.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace agSalon.Models
 {
     [Index(propertyNames: nameof(Name), IsUnique = true)]
-    public class Service
+    public class Service:IEntityBase
     {
         [Key]
         [Column("id")]

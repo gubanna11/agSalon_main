@@ -1,10 +1,12 @@
-﻿@model NewServiceVM
+﻿@model ServiceVM
 
 @using agSalon.Data.ViewModels
 
 @{
     ViewData["Title"] = "New Service";
 }
+
+<p>@ViewBag.Duplicate</p>
 
 <form asp-action="Create">
     <div>
@@ -14,12 +16,12 @@
 
     <div>
         <label asp-for="Price"></label>
-        <input step="any" asp-for="Price" />
+        <input  asp-for="Price" />
     </div>
 
     <div>
         <label asp-for="GroupId"></label>
-        <select asp-for="GroupId" asp-items="ViewBag.Groups"> </select>
+        <select asp-for="GroupId" asp-items="ViewBag.Groups"></select>
     </div>
 
     <div>

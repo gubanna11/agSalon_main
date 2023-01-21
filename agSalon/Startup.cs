@@ -43,6 +43,7 @@ namespace agSalon
 
             services.AddScoped<IAttendancesService, AttendancesService>();
             services.AddScoped<IGroupsService, GroupsService>();
+            services.AddScoped<IServicesService, ServicesService>();
 
 
             services.AddIdentity<Client, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
