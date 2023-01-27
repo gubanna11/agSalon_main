@@ -19,7 +19,13 @@ namespace agSalon.Data.Services
         Task<IEnumerable<Attendance>> GetNotRenderedAttendances();
         Task<IEnumerable<Attendance>> GetNotRenderedIsPaidAttendances();
         Task<IEnumerable<Attendance>> GetNotRenderedNotPaidAttendances();
+        Task<IEnumerable<Attendance>> GetNotRenderedIsPaidAttendances(string userId);
+        Task<IEnumerable<Attendance>> GetNotRenderedNotPaidAttendances(string userId);
 
-        double GetTotal();
+        Task<IEnumerable<Attendance>> GeAllAttendances(string userId, string role);
+
+        Task CompletePaymentAll(string userId);
+
+        double GetTotal(string userId);
     }
 }

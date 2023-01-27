@@ -26,8 +26,8 @@ namespace agSalon.Data.ViewModels
 
         public string WorkerId { get; set; }
 
-        [Column("date", TypeName = "date"), Required]
 
+        [Column("date", TypeName = "date"), Required]
         public DateTime Date { get; set; }
 
         [Column("price")]

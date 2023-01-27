@@ -8,22 +8,40 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using static System.Net.Mime.MediaTypeNames;
+using agSalon.Data.Services;
 
 namespace agSalon.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IGroupsService _groupsService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(AppDbContext context)
+
+		public HomeController(IGroupsService groupsService, IWebHostEnvironment webHostEnvironment)
         {
-            _context = context;
+            _groupsService = groupsService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var groups = _context.Groups.ToList();
-            return View(groups);
+            var groups = await _groupsService.GetAllAsync();
+            
+			DirectoryInfo dir = new DirectoryInfo(_webHostEnvironment.WebRootPath + "\\img\\slider");
+            var list = dir.GetFiles();
+
+            List<string> fileNames = new List<string>();
+            foreach (FileInfo file in list)
+            {
+                fileNames.Add(file.Name);
+            }
+
+            ViewBag.SliderImgs = fileNames;
+			return View(groups);
         }
 
         public IActionResult Privacy()

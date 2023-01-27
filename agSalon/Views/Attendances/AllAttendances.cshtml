@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Attendance>
+
+@foreach (var item in Model)
+{
+	<tr>
+		<td>@item.Client.Surname</td>
+		<td>@item.Group.Name</td>
+		<td>@item.Service.Name</td>
+		<td>@item.Worker.Client.Surname</td>
+		<td>@item.Date.ToShortDateString()</td>
+		<td>@item.Time</td>
+		<td>@item.Price</td>
+		<td>@item.IsRendered</td>
+		<td>@item.IsPaid</td>
+
+
+		<td><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+
+		<td>
+			@await Component.InvokeAsync("Delete", item.Id)
+		</td>
+	</tr>
+}

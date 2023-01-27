@@ -1,10 +1,9 @@
-﻿@model IEnumerable<Service>
+﻿@model List<Service>
 
 <select id="service" name="ServiceId">
     @foreach (var item in Model)
     {
-        <option value="@item.Id"> @item.Name</option>
+        <option data-price="@item.Price" value="@item.Id"> @item.Name</option>
     }
 </select>
-
 

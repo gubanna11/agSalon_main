@@ -1,8 +1,10 @@
 ﻿using agSalon.Data;
 using agSalon.Data.Enums;
 using agSalon.Data.Services;
+using agSalon.Data.Static;
 using agSalon.Data.ViewModels;
 using agSalon.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,28 +16,31 @@ using System.Threading.Tasks;
 
 namespace agSalon.Controllers
 {
-    public class AttendancesController : Controller
+	[Authorize]
+	public class AttendancesController : Controller
     {
         private readonly IAttendancesService _service;
-        private readonly AppDbContext _context;
 
-        public AttendancesController(IAttendancesService service, AppDbContext context)
+        public AttendancesController(IAttendancesService service)
         {
             _service = service;
-            _context = context;
         }
 
-        public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index()
         {
             var attendances = await _service.GetNotRenderedAttendances();
 
-            ViewBag.IsPaid = await _service.GetNotRenderedIsPaidAttendances();
-            ViewBag.NotPaid = await _service.GetNotRenderedNotPaidAttendances();
+            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            ViewBag.Total = _service.GetTotal();
+            ViewBag.IsPaid = await _service.GetNotRenderedIsPaidAttendances(clientId);
+
+            ViewBag.NotPaid = await _service.GetNotRenderedNotPaidAttendances(clientId);
+
+            ViewBag.Total = _service.GetTotal(clientId);
 
             return View(attendances);
         }
+
 
         public async Task<IActionResult> NewAttendance(int id = 1)
         {
@@ -44,34 +49,48 @@ namespace agSalon.Controllers
             AttendanceDropdownsVM dropdowns = await _service.GetAttendanceDropdownsValues(groupId);
 
             ViewBag.Groups = new SelectList(dropdowns.Groups, "Id", "Name", groupId);
-            ViewBag.Services = new SelectList(dropdowns.Services, "Id", "Name");
-            ViewBag.Workers = new SelectList(dropdowns.Workers, "Id", "Surname");
 
-            return View();
+			//ViewBag.Services = new SelectList(dropdowns.Services, "Id", "Name");
+
+			ViewBag.Services = dropdowns.Services;
+			ViewBag.Workers = dropdowns.Workers;
+
+            //ViewBag.ServiceObjects = dropdowns.Services;
+
+
+			//List<Client> workersList= dropdowns.Workers;
+			//List<WorkerListItemVM> workers = new List<WorkerListItemVM>();
+
+			//foreach (var worker in workersList)
+			//{
+			//    workers.Add(new WorkerListItemVM
+			//    {
+			//        Id = worker.Id,
+			//        FullName = worker.Name + " " + worker.Surname,
+			//    });
+			//}
+
+			//ViewBag.Workers = new SelectList(workers, "Id", "FullName");
+
+			return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> NewAttendance(NewAttendanceVM newAttendance)
         {
-            
-            await _service.AddNewAttendance(newAttendance, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _service.AddNewAttendance(newAttendance, clientId);
             
             return RedirectToAction("Index");
         }
 
-        public IActionResult ServicesDropdown(int id)
-        {
-            var services = _context.Services.Include(s => s.Service_Group).Where(s => s.Service_Group.GroupId == id).OrderBy(s => s.Name).ToList();
+        public async Task<IActionResult> ServicesDropdown(int groupId)
+            => PartialView((await _service.GetAttendanceDropdownsValues(groupId)).Services);
+        
 
-            return PartialView(services);
-        }
-
-        public ActionResult WorkersDropdown(int id)
-        {
-            return PartialView(_context.Workers_Groups
-                //.Include(wg => wg.Worker).Where(wg => wg.GroupId == id).Select(wg => wg.Worker)
-                .ToList());
-        }
+        public async Task<IActionResult> WorkersDropdown(int groupId)
+			=> PartialView((await _service.GetAttendanceDropdownsValues(groupId)).Workers);
+        
 
 
         public async Task<ActionResult> FilterNotPaid()
@@ -98,12 +117,7 @@ namespace agSalon.Controllers
 
         public async Task<IActionResult> CompletePayment()
         {
-            var attendances = await _service.GetNotRenderedNotPaidAttendances();
-
-            foreach (var item in attendances)
-                item.IsPaid = YesNoEnum.Yes;
-
-            await _context.SaveChangesAsync();
+            await _service.CompletePaymentAll(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return RedirectToAction("Index");
         }
@@ -115,8 +129,7 @@ namespace agSalon.Controllers
 
             if (attendance != null)
             {
-                _context.Attendances.Remove(attendance);
-                await _context.SaveChangesAsync();
+                await _service.DeleteAsync(id);
             }
 
             return RedirectToAction("Index");
@@ -134,10 +147,18 @@ namespace agSalon.Controllers
         [ActionName("Edit")]
         public async Task<IActionResult> SaveChanges(Attendance attendance)
         {
-            _context.Attendances.Update(attendance);
-            await _context.SaveChangesAsync();
+            await _service.UpdateAsync(attendance);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AllAttendances");
         }
+
+		[Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Worker}")]
+		public async Task<IActionResult> AllAttendances()
+        {
+            var attendances = await _service.GeAllAttendances(User.FindFirstValue(ClaimTypes.NameIdentifier), User.FindFirstValue(ClaimTypes.Role));
+
+			return View(attendances);
+        }
+
     }
 }

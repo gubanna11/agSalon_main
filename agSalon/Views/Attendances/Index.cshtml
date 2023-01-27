@@ -1,8 +1,9 @@
-﻿@model IEnumerable<Attendance>
+﻿@using agSalon.Data.Static;
+@model IEnumerable<Attendance>
 @*@model IEnumerable<Nullable<TimeSpan>>*@
 
 @{
-    ViewData["Title"] = "Attendances";
+	ViewData["Title"] = "Attendances";
 }
 
 @*@foreach (var item in Model)
@@ -32,121 +33,125 @@
 
 <hr />
 <table>
-    <thead>
-        <tr>
-            <th>Client Surname</th>
-            <th>Group Name</th>
-            <th>Service Name</th>
-            <th>Worker Surname</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Price</th>
-            <th>Rendered</th>
-            <th>Paid</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (ViewBag.NotPaid.Count > 0)
-        {
-            @foreach (var item in ViewBag.NotPaid)
-            {
-                <tr>
-                    <td>@item.Client.Surname</td>
-                    <td>@item.Group.Name</td>
-                    <td>@item.Service.Name</td>
-                    <td>@item.Worker.Surname</td>
-                    <td>@item.Date.ToShortDateString()</td>
-                    <td>@item.Time</td>
-                    <td>@item.Price</td>
-                    <td>@item.IsRendered</td>
-                    <td>@item.IsPaid</td>
-                    <td><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+	<thead>
+		<tr>
+			<th>Client Surname</th>
+			<th>Group Name</th>
+			<th>Service Name</th>
+			<th>Worker Surname</th>
+			<th>Date</th>
+			<th>Time</th>
+			<th>Price</th>
+			<th>Rendered</th>
+			<th>Paid</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (ViewBag.NotPaid.Count > 0)
+		{
+			@foreach (var item in ViewBag.NotPaid)
+			{
+				<tr>
+					<td>@item.Client.Surname</td>
+					<td>@item.Group.Name</td>
+					<td>@item.Service.Name</td>
+					<td>@item.Worker.Client.Surname</td>
+					<td>@item.Date.ToShortDateString()</td>
+					<td>@item.Time</td>
+					<td>@item.Price</td>
+					<td>@item.IsRendered</td>
+					<td>@item.IsPaid</td>
 
-                    <td>
-                        <form asp-action="Delete" asp-route-id="@item.Id">
-                            <input type="submit" value="Delete">
-                        </form>
-                    </td>
-                </tr>
-            }
-            <tr>
-                <td colspan="6"></td>
-                <td>@ViewBag.Total</td>
-                <td><div id="paypal-btn"></div></td>
 
-            </tr>
-        }
-        @foreach (var item in ViewBag.IsPaid)
-        {
+				@*	@if (User.Identity.IsAuthenticated && (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Worker)))
+					{
+						<td><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+					}
+*@
+					<td>
+						@await Component.InvokeAsync("Delete", item.Id)
+					</td>
+				</tr>
+			}
+			<tr>
+				<td colspan="6"></td>
+				<td>@ViewBag.Total</td>
+				<td><div id="paypal-btn"></div></td>
 
-            <tr>
-                <td>@item.Client.Surname</td>
-                <td>@item.Group.Name</td>
-                <td>@item.Service.Name</td>
-                <td>@item.Worker.Surname</td>
-                <td> @item.Date.ToShortDateString()</td>
-                <td>@item.Time</td>
-                <td>@item.Price</td>
-                <td>@item.IsRendered</td>
-                <td>@item.IsPaid</td>
-                <td><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+			</tr>
+		}
+		@foreach (var item in ViewBag.IsPaid)
+		{
 
-                <td>
-                    <form asp-action="Delete" asp-route-id="@item.Id">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
+			<tr>
+				<td>@item.Client.Surname</td>
+				<td>@item.Group.Name</td>
+				<td>@item.Service.Name</td>
+				<td>@item.Worker.Client.Surname</td>
+				<td> @item.Date.ToShortDateString()</td>
+				<td>@item.Time</td>
+				<td>@item.Price</td>
+				<td>@item.IsRendered</td>
+				<td>@item.IsPaid</td>
+
+				
+				@*	<td><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+				*@
+
+				<td>
+					@await Component.InvokeAsync("Delete", item.Id)
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 
 @section Scripts{
 
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
-    <script>
+	<script>
 
-        let _total = @Html.Raw(ViewBag.Total);
+		let _total = @Html.Raw(ViewBag.Total);
 
-        paypal.Button.render({
-            //Configure environment
-            env: 'sandbox',
-            client: {
-                sandbox: 'ARU3D2Jlr2QW3KKRlVSXdFiAZ46B8cM7wC5g-jdiUv1ESsr0kh_BGlxnalTMsIobmDFTBBM9ehgsdamW'
-            },
+		paypal.Button.render({
+			//Configure environment
+			env: 'sandbox',
+			client: {
+				sandbox: 'ARU3D2Jlr2QW3KKRlVSXdFiAZ46B8cM7wC5g-jdiUv1ESsr0kh_BGlxnalTMsIobmDFTBBM9ehgsdamW'
+			},
 
-            //Customize button
-            locale: 'en_US',
-            style: {
-                size: 'small',
-                color: 'gold',
-                shape: 'pill'
-            },
-            commit: true,
+			//Customize button
+			locale: 'en_US',
+			style: {
+				size: 'small',
+				color: 'gold',
+				shape: 'pill'
+			},
+			commit: true,
 
-            //Set up a payment
-            payment: function (data, actions) {
-                return actions.payment.create({
-                    transactions: [{
-                        amount: {
-                            total: _total,
-                            currency: 'USD'
-                        }
-                    }]
-                });
-            },
+			//Set up a payment
+			payment: function (data, actions) {
+				return actions.payment.create({
+					transactions: [{
+						amount: {
+							total: _total,
+							currency: 'USD'
+						}
+					}]
+				});
+			},
 
-            //Execute the payment
-            onAuthorize: function (data, actions) {
-                return actions.payment.execute().then(function () {
-                    var url = '@Url.Action("CompletePayment", "Attendances", new { })';
-                    window.location.href = url;
-                });
-            }
-        }, '#paypal-btn');
-    </script>
+			//Execute the payment
+			onAuthorize: function (data, actions) {
+				return actions.payment.execute().then(function () {
+					var url = '@Url.Action("CompletePayment", "Attendances", new { })';
+					window.location.href = url;
+				});
+			}
+		}, '#paypal-btn');
+	</script>
 }
 

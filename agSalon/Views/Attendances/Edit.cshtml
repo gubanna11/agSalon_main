@@ -12,25 +12,25 @@
 
 <form asp-action="Edit">
     <div>
-        @*<label asp-for="@Model.Client.Surname">Client Surname</label>*@
+        <label asp-for="@Model.Client.Surname"></label>
         <input type="hidden" asp-for=@Model.ClientId readonly>
-        @*<p>@Model.Client.Surname</p>*@
+        <p>@Model.Client.Surname</p>
     </div>
     <div>
-        <label asp-for="@Model.Group.Name">Group Name</label>
+        <label asp-for="@Model.Group.Name"></label>
         <input  type="hidden" asp-for=@Model.GroupId readonly>
         <p>@Model.Group.Name</p>
     </div>
     <div>
-        <label asp-for="@Model.Service.Name ">Service Name</label>
+        <label asp-for="@Model.Service.Name"></label>
         <input  type="hidden" asp-for=@Model.ServiceId readonly>
         <p>@Model.Service.Name </p>
     </div>
-    @*<div>
-        <label asp-for="@Model.Worker.Surname">Worker Surname</label>
+
+    <div>
         <input type="hidden" asp-for=@Model.WorkerId>
-        <p>@Model.Worker.Surname</p>
-    </div>*@
+        <p>@Model.Worker.Client.Surname</p>
+    </div>
    
     <div>
         <label asp-for="@Model.Date"></label>

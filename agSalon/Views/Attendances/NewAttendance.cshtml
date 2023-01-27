@@ -1,72 +1,118 @@
 ﻿@model NewAttendanceVM
 
 @{
-    ViewData["Title"] = "New Attendance";
+	ViewData["Title"] = "New Attendance";
 }
 
-<form asp-action="NewAttendance">
+<form asp-action="NewAttendance" name="newAttendance">
 
-    <div>
-        <label asp-for="GroupId"></label>
-        @*<select asp-for="GroupId" asp-items="ViewBag.Groups" id="group"> </select>*@
-        @Html.DropDownList("GroupId", ViewBag.Groups as SelectList, new { id = "group"})
-        
+	<div>
+		<label asp-for="GroupId"></label>
+		@*<select asp-for="GroupId" asp-items="ViewBag.Groups" id="group"> </select>*@
+		@Html.DropDownList("GroupId", ViewBag.Groups as SelectList, new { id = "group"})
 
-        @*@Html.DropDownListFor(n => n.GroupId, (SelectList)ViewBag.Groups, new { id = "group"})*@
-    </div>
+		@*@Html.DropDownListFor(n => n.GroupId, (SelectList)ViewBag.Groups, new { id = "group"})*@
+	</div>
 
 
-    <div>
-        <label asp-for="ServiceId"></label>
-        @*<select asp-for="ServiceId" asp-items="ViewBag.Services" id="service"> </select>*@
-        @*<select asp-for="ServiceId" id="service">*@
-            @Html.DropDownList("ServiceId", ViewBag.Services as SelectList, new { id = "service" })
-        @*</select>*@
-        
-        
-    </div>
+	<div>
+		<label asp-for="ServiceId"></label>
+		@*<select asp-for="ServiceId" asp-items="ViewBag.Services" id="service"> </select>*@
+		@*<select asp-for="ServiceId" id="service">*@
+		@*@Html.DropDownList("ServiceId", ViewBag.Services as SelectList, new { id = "service" })*@
+		<select name="ServiceId" id="service">
+			@foreach (var item in ViewBag.Services)
+			{
+				<option data-price="@item.Price" value="@item.Id">@item.Name</option>
+			}
+		</select>
+		@*</select>*@
 
-    <div>
-        <label asp-for="WorkerId"></label>
-        @*<select asp-for="WorkerId" asp-items="ViewBag.Workers" id="worker"> </select>*@
-        @Html.DropDownList("WorkerId", ViewBag.Workers as SelectList, new { id = "worker" })
-    </div>
 
-    <div>
-        <label asp-for="Date"></label>
-        <input asp-for="Date" type="date" />
-    </div>
+	</div>
 
-    <div>
-        <input type="submit" value="Create" />
-    </div>
+	<div>
+		<label asp-for="WorkerId"></label>
+		@*<select asp-for="WorkerId" asp-items="ViewBag.Workers" id="worker"> </select>*@
+		@*@Html.DropDownList("WorkerId", ViewBag.Workers as SelectList, new { id = "worker" })*@
+		<select name="WorkerId" id="worker">
+			@foreach (var item in ViewBag.Workers)
+			{
+				<option value="@item.Id">@item.Client.Name @item.Client.Surname</option>
+			}
+		</select>
+	</div>
+
+	<div>
+		<label asp-for="Date"></label>
+		<input asp-for="Date" type="date" value="@DateTime.Now.ToShortDateString()" />
+	</div>
+	<div>
+		<p id="servicePrice">
+
+		</p>
+	</div>
+	<div>
+		<input type="submit" value="Create" />
+	</div>
 </form>
 
 @section Scripts{
-    <script type="text/javascript">
-    $(function () {
+	<script type="text/javascript">
+		$(function () {
 
-        $('#group').change(function () {
-            // получаем выбранный id
-            var id = $(this).val();
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("ServicesDropdown")/' + id,
-                success: function (data) {
-                    // заменяем содержимое присланным частичным представлением
-                    $('#service').replaceWith(data);
-                    $.ajax({
-                        type: 'GET',
-                        url: '@Url.Action("WorkersDropdown")/' + id,
-                        success: function (data) {
-                            // заменяем содержимое присланным частичным представлением
-                            $('#worker').replaceWith(data)
-                }
-            });
-                }
-            });
+			$('#group').change(function () {
+				// получаем выбранный id
+				var groupId = $(this).val();
+				$.ajax({
+					type: 'GET',
+					url: '@Url.Action("ServicesDropdown")?groupId=' + groupId,
+					success: function (data) {
+						// заменяем содержимое присланным частичным представлением
+						$('#service').replaceWith(data);
+						$.ajax({
+							type: 'GET',
+							url: '@Url.Action("WorkersDropdown")?groupId=' + groupId,
+							success: function (data) {
+								// заменяем содержимое присланным частичным представлением
+								$('#worker').replaceWith(data)
+							}
+						});
+					}
+				});
 
-        });
-    })
-    </script>
+			});
+		});
+	</script>
+
+	<script>
+		/*------------------------------------------------
+		* ----------------------------------------------------
+		dropdowns
+		-----------------------------------------------
+		-----------------------------------------------
+		*/
+		let price = document.getElementById('servicePrice');
+		let services = document.getElementById('service');
+		const form = document.forms['newAttendance'];
+
+		let selectedIndex = 0;
+
+		let setPrice = function (index) {
+			price.textContent = services.options[index].dataset['price'];
+		}
+
+		setPrice(selectedIndex);
+
+
+		form.addEventListener('mouseover', function () {
+			services = document.getElementById('service');
+
+			selectedIndex = services.selectedIndex;
+
+			setPrice(selectedIndex);
+		})
+
+
+	</script>
 }

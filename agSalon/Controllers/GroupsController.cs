@@ -25,7 +25,7 @@ namespace agSalon.Controllers
         private readonly IGroupsService _service;
       
 
-        public GroupsController(IGroupsService service, AppDbContext context, IWebHostEnvironment webHostEnvironment)
+        public GroupsController(IGroupsService service)
         {
             _service = service;
         }

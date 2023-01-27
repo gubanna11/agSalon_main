@@ -65,6 +65,10 @@
 								<ul class="menu__sub-list">
 									<li class="menu__sub-link"><a asp-controller="Attendances" asp-action="Index"><i class="bi bi-person-square"></i> Not rendered</a></li>
 									<li class="menu__sub-link"><a asp-controller="Attendances" asp-action="History"><i class="bi bi-person-square"></i> History</a></li>
+									@if (User.Identity.IsAuthenticated && (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Worker)))
+									{
+										<li class="menu__sub-link"><a asp-controller="Attendances" asp-action="AllAttendances"><i class="bi bi-person-square"></i> All Attendances</a></li>
+									}
 								</ul>
 
 							</li>
@@ -116,10 +120,10 @@
 			</div>
 		</footer>
 	</div>
-	<script src="https://kit.fontawesome.com/9878cef510.js" crossorigin="anonymous"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/js/main.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
-	@*<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+	@await RenderSectionAsync("Scripts", required: false)	
+	
+	@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 </body>
 </html>

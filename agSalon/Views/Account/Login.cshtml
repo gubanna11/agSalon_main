@@ -9,6 +9,9 @@
 
 <form asp-action="Login">
     <div>
+        <input name="returnUrl" id="pageUrl" hidden />
+    </div>
+    <div>
         <label asp-for="EmailAddress"></label>
         <input asp-for="EmailAddress" />
         <span asp-validation-for="EmailAddress"></span>
@@ -22,3 +25,11 @@
         <input asp-action="Login" value="Log in" type="submit" />
     </div>
 </form>
+
+@section Scripts{
+    <script>
+        let url = window.location.href.split('ReturnUrl=')[1].replaceAll('%2F', '/');
+        url = '~' + url;
+        document.getElementById('pageUrl').value = url;
+    </script>
+}

@@ -18,26 +18,26 @@ namespace agSalon.Controllers
     public class ServicesController : Controller
     {
         private readonly IServicesService _service;
-        private readonly IGroupsService _serviceGroup;
+        private readonly IGroupsService _groupsService;
 
-        public ServicesController(AppDbContext context, IServicesService service, IGroupsService serviceGroup)
+        public ServicesController(AppDbContext context, IServicesService service, IGroupsService groupsService)
         {
             _service = service;
-            _serviceGroup = serviceGroup;
+            _groupsService = groupsService;
         }
 
         public async Task<IActionResult> Index(int groupId)
         {
             var services = _service.GetServicesByGroupId(groupId);
 
-            ViewBag.GroupName = (await _serviceGroup.GetByIdAsync(groupId)).Name;
+            ViewBag.GroupName = (await _groupsService.GetByIdAsync(groupId)).Name;
 
             return View(services);
         }
 
         public async Task<IActionResult> Create()
         {
-            var groups = await _serviceGroup.GetAllAsync();
+            var groups = await _groupsService.GetAllAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
             return View();
@@ -46,7 +46,7 @@ namespace agSalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ServiceVM newService)
         {
-            var groups = await _serviceGroup.GetAllAsync();
+            var groups = await _groupsService.GetAllAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
             try
             {
@@ -84,7 +84,7 @@ namespace agSalon.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var service = await _service.GetServiceByIdWithGroupAsync(id);
-            var groups = await _serviceGroup.GetAllAsync();
+            var groups = await _groupsService.GetAllAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
             ViewBag.GroupName = service.Service_Group.Group.Name;
@@ -103,7 +103,7 @@ namespace agSalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ServiceVM serviceVM)
         {
-            var groups = await _serviceGroup.GetAllAsync();
+            var groups = await _groupsService.GetAllAsync();
             ViewBag.Groups = new SelectList(groups, "Id", "Name");
             try
             {

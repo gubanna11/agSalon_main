@@ -8,28 +8,37 @@
 
 
 
-	<div class="main-slider-wrapper">
-		<div class="main-slider">
-			<div class="slide active">
-				<img src="img/img_1.jpg" />
-			</div>
+<div class="main-slider-wrapper">
+	<div class="main-slider">
+
+		@foreach (var item in ViewBag.SliderImgs)
+		{
 			<div class="slide">
-				<img src="img/img_2.jpg" />
-			</div>
-			<div class="slide">
-				<img src="img/img_3.jpg" />
+				<img src="/img/slider/@item">
 			</div>
 
-			<div id="btn-prev"></div>
-			<div id="btn-next"></div>
+		}
+
+		@*<div class="slide active">
+			<img src="img/img_1.jpg" />
 		</div>
-	</div>
+		<div class="slide">
+			<img src="img/img_2.jpg" />
+		</div>
+		<div class="slide">
+			<img src="img/img_3.jpg" />
+		</div>*@
 
-	@*<div class="dots-wrapper">
+		<div id="btn-prev"></div>
+		<div id="btn-next"></div>
+	</div>
+</div>
+
+@*<div class="dots-wrapper">
 
 	</div>*@
 
-	<div class="looking-for">
+@*	<div class="looking-for">
 		<div class="looking-for-content">
 			<p class="looking-for-content__title">I'm looking for...</p>
 			<div class="looking-for-content__body">
@@ -49,7 +58,7 @@
 				<div>Something</div>
 			</div>
 		</div>
-	</div>
+	</div>*@
 
 
 
@@ -58,6 +67,57 @@
 	<script>
 		let footer = document.querySelector('.footer');
 		footer.style = 'display:none';
+
+
+		//----------------------------------------//
+		//----------------------------------------//
+		//SLIDER
+		//----------------------------------------//
+		//----------------------------------------//
+
+		const slides = document.querySelectorAll('.slide'),
+			prev = document.getElementById('btn-prev'),
+			next = document.getElementById('btn-next');
+
+		
+
+		let index = 0;
+
+		const activeSlide = n => {
+			for (slide of slides) {
+				slide.classList.remove('active');
+			}
+			slides[n].classList.add('active');
+		}
+
+		const prepareCurrentSlide = ind => {
+			activeSlide(ind);
+		}
+
+		const nextSlide = () => {
+			if (index == slides.length - 1) {
+				index = 0;
+				prepareCurrentSlide(index);
+			} else {
+				index++;
+				prepareCurrentSlide(index);
+			}
+		}
+
+		const prevSlide = () => {
+			if (index == 0) {
+				index = slides.length - 1;
+				prepareCurrentSlide(index);
+			} else {
+				index--;
+				prepareCurrentSlide(index);
+			}
+		}
+
+		activeSlide(0);
+		next.addEventListener('click', nextSlide);
+		prev.addEventListener('click', prevSlide);
+
 	</script>
 }
 
