@@ -45,7 +45,7 @@
 
 	<div>
 		<label asp-for="Date"></label>
-		<input asp-for="Date" type="date" value="@DateTime.Now.ToShortDateString()" />
+		<input asp-for="Date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
 	</div>
 	<div>
 		<p id="servicePrice">

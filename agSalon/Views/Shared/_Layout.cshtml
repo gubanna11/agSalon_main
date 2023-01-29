@@ -20,16 +20,14 @@
 		<header class="header">
 			<nav class="header__container">
 
-				<a class="header__logo" asp-controller="Home" asp-action="Index">agSalon</a>
+				<a class="header__logo" asp-controller="Home" asp-action="Index">
+					agSalon</a>
 				@*<button class="">
 				<span class=""></span>
 				</button>*@
 				<div class="header__menu">
 					<nav class="menu__body">
 						<ul class="menu__list">
-							@*<li class="menu__link">
-							<a class="" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-							</li>*@
 
 							<li class="menu__link">
 								<div class="menu__link-name">
@@ -97,15 +95,11 @@
 									}
 								</ul>
 							</li>
-
-
-							<partial name="_Identity.cshtml" />
-							@* change personal info, user's attendances *@
-
 						</ul>
 					</nav>
 				</div>
-
+				<partial name="_Identity.cshtml" />
+				@* change personal info, user's attendances *@
 			</nav>
 		</header>
 		<section class="main">

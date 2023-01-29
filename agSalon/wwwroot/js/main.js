@@ -37,6 +37,23 @@ if (deletes_a.length > 0) {
 }
 
 
+//header
+
+//$(function () {
+//    $("header").before($(".header").clone().addClass("fixed"));
+//    $(window).scroll(function () {
+//        if ($(window).scrollTop() >= 150) {
+//            $('.header.fixed').addClass('slideDown');
+//        }
+//        else {
+//            $('.header.fixed').removeClass('slideDown');
+//        }
+
+//    });
+//});
+
+
+
 document.onclick = function(e){
     for(let del of deletes)
         if (!e.composedPath().includes(del)) {

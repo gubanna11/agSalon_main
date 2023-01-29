@@ -2,20 +2,27 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
-        <a asp-controller="Account" asp-action="Login" class="login_btn">Log in</a>
-    <a asp-controller="Account" asp-action="Register">Register</a>
+	<div class="identity">
+		<a asp-controller="Account" asp-action="Login" class="sign-in">Sign In</a>
+		<a asp-controller="Account" asp-action="Register" class="sign-up">Sign Up</a>
+	</div>
 }
 else
 {
-    <div class="text-center">
-        @UserManager.GetUserName(User)
-    </div>
-    <div>
-        <form asp-controller="Account" asp-action="Logout">
-            <button class="btn btn-outline-danger my-2 my-am-0">
-                <i class="bi bi-box-arrow-in-right"></i> Log out
-            </button>
-        </form>
-    </div>
+	<div class="identity">
+		<div class="identity-sign-in">
+			@*<img class="header-identity__img" src="img/person.svg">*@
+			<i class="bi bi-person"></i>
+			<div class="identity-sign-in__info">
+				@UserManager.GetUserName(User)
+			</div>
+		</div>
+
+		<div class="identity-sign-out">
+			<form asp-controller="Account" asp-action="Logout">
+				<button type="submit"><i class="bi bi-box-arrow-right"></i></button>
+			</form>
+		</div>
+	</div>
 }
 

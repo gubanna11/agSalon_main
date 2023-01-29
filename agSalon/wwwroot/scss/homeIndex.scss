@@ -49,7 +49,8 @@
     top: 0;
     height: 100%;
     width: 77px;
-    background-color: #F6B7B2FF;
+    /*background-color: #F6B7B2FF;*/
+    background-color: $beigeColor;
     opacity: 0.4;
     cursor: pointer;
     transition: opacity .2s ease-in-out;

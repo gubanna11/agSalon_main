@@ -1,10 +1,18 @@
-﻿@import "reset.scss";
-@import "homeIndex.scss";
+﻿@import "fonts";
+@import "variables";
+@import "reset";
+@import "homeIndex";
 
 body {
-    color: #333;
+    color: $textColor;
     font-size: 16px;
-    font-family: 'Open Sans';
+    /*font-family: 'Open Sans';*/
+    font-family: 'Montserrat';
+    background: #fff;
+}
+
+a {
+    color: $textColor;
 }
 
 .wrapper {
@@ -18,11 +26,25 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
     z-index: 10;
     background-color: #fff;
+    width: 100%;
+    box-shadow: 0 2px 28px 0 rgb(0 0 0 / 9%);
+}
+/*
+.fixed {
+    position: fixed;
+    top: -90px;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    transition: 0.4s top cubic-bezier(.3, .73, .3, .74);
 }
 
+.fixed.slideDown {
+    top: 0;
+}
+*/
 .header__container {
     max-width: 1200px;
     margin: 0px auto;
@@ -40,7 +62,7 @@ body {
 .menu__list {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 44px;
 }
 
 .menu__list > li {
@@ -48,10 +70,12 @@ body {
     align-items: center;
     position: relative;
     padding: 34px 0px;
+    font-weight: 500;
 }
 
-.menu__link > a {
-    color: #333;
+.menu__link a:hover {
+    color: $beigeColor;
+    transition: all 0.5s ease;
 }
 
 .menu__link-name {
@@ -62,7 +86,6 @@ body {
 
 
 .menu__sub-list {
-    /*display: none;*/
     overflow: hidden;
     opacity: 0;
     transition: all 0.8s ease;
@@ -74,7 +97,6 @@ body {
     border-radius: 7px;
     background-color: #fff;
     pointer-events: none;
-    /*transition: all 3s ease;*/
 }
 
 .menu__sub-link {
@@ -83,13 +105,11 @@ body {
 }
 
 .menu__sub-link > a:hover {
-    color: #F6B7B2FF;
+    /*color: #F6B7B2FF;*/
+    color: $beigeColor;
     transition: all 0.5s ease;
 }
 
-.menu__sub-link > a {
-    color: #333;
-}
 
 .menu__sub-link:first-child {
     padding-top: 0;
@@ -111,9 +131,7 @@ body {
     border-top: 10px solid #000;
 }
 
-/*.active {
-    display: block;
-}*/
+
 
 .menu__link:hover .menu__arrow {
     transform: rotate(-180deg);
@@ -138,10 +156,78 @@ body {
 }*/
 
 
+/*----------------------------------------------*/
+/*----------------------------------------------*/
+
+/*IDENTITY*/
+
+/*----------------------------------------------*/
+/*----------------------------------------------*/
+
+.identity {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 220px;
+}
+
+.header-identity__img {
+    height: 28px;
+}
+
+.identity-sign-in .identity-sign-out {
+    background-color: red;
+}
+
+.identity-sign-in {
+    padding: 28px 0px;
+}
+
+.identity-sign-out {
+    padding: 28px 0px;
+}
+
+.identity-sign-in i {
+    font-size: 26px;
+    color: $textColor;
+}
+
+.identity-sign-out i {
+    font-size: 26px;
+    color: $textColor;
+}
 
 
+.identity-sign-in {
+    position: relative;
+}
+
+.identity-sign-in__info {
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    background: grey;
+    transition: all 0.6s ease;
+    position: absolute;
+    top: 100%;
+    left: -36px;
+    min-width: 220px;
+    padding: 20px 25px;
+    border: 1px solid #d8dede;
+    border-radius: 7px;
+    background-color: #fff;
+}
+
+.identity-sign-in:hover .identity-sign-in__info {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
 
 
+.identity-sign-out {
+}
+/*------------------------------------------------*/
 .main {
     padding: 86px 0px 30px 0px;
     /*width: 100%;*/
@@ -157,7 +243,7 @@ body {
 .delete > form {
     overflow: hidden;
     opacity: 0;
-    transition: all 0.6s ease;
+    transition: all 0.4s ease;
     pointer-events: none;
 }
 
@@ -174,29 +260,20 @@ body {
 /*---------------------------------------------*/
 /*---------------------------------------------*/
 
-
-input:invalid {
-    border: red 3px solid;
-}
-
-input:valid {
-    border: green 3px solid;
+.sign-in:hover {
+    color: #000;
 }
 
 
-
-.login_btn {
-    color: black;
-    display: block;
-    /*width: 100px;
-    height: 50px;*/
-    background-color: #75846FFF;
-    text-align: center;
-    padding: 12px 16px;
-    border-radius: 10px;
-    color: #fff;
+.sign-up:hover {
+    color: #000;
 }
 
+
+.sign-up {
+    padding: 16px 20px;
+    border: 2px $beigeColor solid;
+}
 
 
 
