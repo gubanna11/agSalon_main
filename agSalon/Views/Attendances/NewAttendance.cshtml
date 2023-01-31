@@ -4,7 +4,7 @@
 	ViewData["Title"] = "New Attendance";
 }
 
-<form asp-action="NewAttendance" name="newAttendance">
+<form asp-action="NewAttendance" name="newAttendance" id="newAttendance">
 
 	<div>
 		<label asp-for="GroupId"></label>
@@ -48,7 +48,7 @@
 		<input asp-for="Date" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
 	</div>
 	<div>
-		<p id="servicePrice">
+		<p id="price">
 
 		</p>
 	</div>
@@ -59,60 +59,42 @@
 
 @section Scripts{
 	<script type="text/javascript">
-		$(function () {
+		const form = document.forms['newAttendance'];
+		const price = document.getElementById('price');
 
+		let setPrice = function (index) {
+			price.textContent = $('#service')[0][index].dataset['price'];
+		}
+
+		setPrice($('#service')[0][index].dataset['price']);
+
+		//$(function () {
 			$('#group').change(function () {
-				// получаем выбранный id
 				var groupId = $(this).val();
 				$.ajax({
 					type: 'GET',
 					url: '@Url.Action("ServicesDropdown")?groupId=' + groupId,
 					success: function (data) {
-						// заменяем содержимое присланным частичным представлением
 						$('#service').replaceWith(data);
+						setPrice($('#service')[0].selectedIndex);
 						$.ajax({
 							type: 'GET',
 							url: '@Url.Action("WorkersDropdown")?groupId=' + groupId,
 							success: function (data) {
-								// заменяем содержимое присланным частичным представлением
 								$('#worker').replaceWith(data)
 							}
 						});
 					}
 				});
-
 			});
-		});
+
+			$('#newAttendance').change(function(){
+				let index = $('#service')[0].selectedIndex;
+				setPrice(index);
+			})
+		//});
+
+		
 	</script>
 
-	<script>
-		/*------------------------------------------------
-		* ----------------------------------------------------
-		dropdowns
-		-----------------------------------------------
-		-----------------------------------------------
-		*/
-		let price = document.getElementById('servicePrice');
-		let services = document.getElementById('service');
-		const form = document.forms['newAttendance'];
-
-		let selectedIndex = 0;
-
-		let setPrice = function (index) {
-			price.textContent = services.options[index].dataset['price'];
-		}
-
-		setPrice(selectedIndex);
-
-
-		form.addEventListener('mouseover', function () {
-			services = document.getElementById('service');
-
-			selectedIndex = services.selectedIndex;
-
-			setPrice(selectedIndex);
-		})
-
-
-	</script>
-}
+	
